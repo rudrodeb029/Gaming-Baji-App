@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react';
 import { useAdminDashboard } from '../context/AdminDashboardContext';
+import { useCurrency } from '../context/CurrencyContext';
 import { TrendingUp, ArrowUpRight, ArrowDownRight, UserPlus, Flame, Trophy, Zap, Star } from 'lucide-react';
 
 const GlobalActivityFeed: React.FC = () => {
   const { activities } = useAdminDashboard();
+  const { formatCurrency, currency } = useCurrency();
   const currentUserId = useMemo(() => localStorage.getItem('generatedUserId') || 'USER123', []);
 
   const getIcon = (type: string) => {
@@ -17,7 +19,7 @@ const GlobalActivityFeed: React.FC = () => {
   };
 
   const getMessage = (activity: any, isPrivate: boolean) => {
-    const amountStr = isPrivate ? '$***' : `$${activity.amount}`;
+    const amountStr = isPrivate ? (currency === 'BDT' ? '৳***' : '$***') : formatCurrency(activity.amount);
     
     switch (activity.type) {
       case 'deposit': 
@@ -41,7 +43,7 @@ const GlobalActivityFeed: React.FC = () => {
       case 'win': 
         return (
           <span>
-            won <span className="text-amber-400 font-bold drop-shadow-[0_0_8px_rgba(251,191,36,0.4)]">${activity.amount}</span> in <span className="text-amber-400/80 font-semibold">{activity.matchName}</span>
+            won <span className="text-amber-400 font-bold drop-shadow-[0_0_8px_rgba(251,191,36,0.4)]">{formatCurrency(activity.amount)}</span> in <span className="text-amber-400/80 font-semibold">{activity.matchName}</span>
           </span>
         );
       default: return 'performed an action';

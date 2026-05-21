@@ -1,11 +1,13 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAdminDashboard } from '../context/AdminDashboardContext';
 import { ArrowLeft, Users, Trophy, Target, Sword, Clock } from 'lucide-react';
+import { useCurrency } from '../context/CurrencyContext';
 
 const MatchDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { adminMatches, adminUsers } = useAdminDashboard();
+  const { formatCurrency } = useCurrency();
   
   const match = adminMatches.find(m => m.id === id) || adminMatches[0];
   const participants = (match.participantIds || []).map(pid => 
@@ -173,7 +175,7 @@ const MatchDetails = () => {
                   </span>
                   <span className="text-sm font-semibold">{winner.userName}</span>
                 </div>
-                <span className="text-emerald-400 font-bold">+${winner.reward}</span>
+                <span className="text-emerald-400 font-bold">+{formatCurrency(winner.reward)}</span>
               </div>
             ))}
           </div>

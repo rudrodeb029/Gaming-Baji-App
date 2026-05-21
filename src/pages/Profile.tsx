@@ -5,6 +5,7 @@ import BottomNav from '../components/BottomNav';
 import SecurityNotifications from '../components/SecurityNotifications';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useCurrency } from '../context/CurrencyContext';
 import { useChat } from '../context/ChatContext';
 import { useAdminDashboard } from '../context/AdminDashboardContext';
 import { 
@@ -48,6 +49,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { isDarkMode, toggleTheme } = useTheme();
   const { t, language, setLanguage } = useLanguage();
+  const { currency, setCurrency } = useCurrency();
   const { setIsChatOpen } = useChat();
   const [showSecurity, setShowSecurity] = useState(false);
   const [showPayments, setShowPayments] = useState(false);
@@ -323,7 +325,8 @@ const Profile = () => {
           { label: t('paymentMethods'), icon: <CreditCard size={20} />, onClick: () => setShowPayments(true) },
           { label: t('notifications'), icon: <Bell size={20} />, onClick: () => setShowNotifications(true) },
           { label: t('languageRegion'), icon: <Globe size={20} />, onClick: () => setShowLanguage(true) },
-          { label: t('appearance'), icon: isDarkMode ? <Moon size={20} /> : <Sun size={20} />, onClick: toggleTheme, isToggle: true },
+          { label: t('appearance'), icon: isDarkMode ? <Moon size={20} /> : <Sun size={20} />, onClick: toggleTheme, isToggle: true, toggleState: isDarkMode },
+          { label: 'Currency Preference', icon: <DollarSign size={20} />, onClick: () => setCurrency(currency === 'USD' ? 'BDT' : 'USD'), customToggle: true, toggleState: currency },
           { label: t('helpCenter'), icon: <HelpCircle size={20} />, onClick: () => setShowHelp(true) },
           { label: t('logout'), icon: <LogOut size={20} />, onClick: () => navigate('/login'), isLogout: true }
         ].map((item, i) => (
@@ -367,12 +370,27 @@ const Profile = () => {
               </div>
               {item.label}
             </div>
-            {item.isToggle ? (
+            {item.customToggle ? (
+              <div style={{
+                background: 'var(--glass-border)',
+                padding: '4px 8px',
+                borderRadius: '12px',
+                fontSize: '0.8rem',
+                fontWeight: 900,
+                color: 'var(--text-primary)',
+                display: 'flex',
+                gap: '8px',
+                alignItems: 'center'
+              }}>
+                <span style={{ color: currency === 'USD' ? 'var(--accent-orange)' : 'var(--text-secondary)' }}>$</span>
+                <span style={{ color: currency === 'BDT' ? 'var(--accent-orange)' : 'var(--text-secondary)' }}>৳</span>
+              </div>
+            ) : item.isToggle ? (
               <div style={{ 
                 width: '44px', 
                 height: '24px', 
                 borderRadius: '20px', 
-                background: isDarkMode ? 'var(--accent-gradient)' : 'var(--glass-border)',
+                background: item.toggleState ? 'var(--accent-gradient)' : 'var(--glass-border)',
                 position: 'relative',
                 transition: 'all 0.3s'
               }}>
@@ -383,7 +401,7 @@ const Profile = () => {
                   background: '#FFFFFF', 
                   position: 'absolute',
                   top: '3px',
-                  left: isDarkMode ? '23px' : '3px',
+                  left: item.toggleState ? '23px' : '3px',
                   transition: 'all 0.3s'
                 }} />
               </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdminDashboard } from '../context/AdminDashboardContext';
+import { useCurrency } from '../context/CurrencyContext';
 import type { AdminMatch } from '../context/AdminDashboardContext';
 import { useChat } from '../context/ChatContext';
 import { useRef } from 'react';
@@ -14,6 +15,7 @@ const AdminDashboard = () => {
     withdrawalRequests, processWithdrawal, completeWithdrawal, rejectWithdrawal,
     adminUsers, updateUserBalance, toggleUserStatus, stats, setMatchWinners,
   } = useAdminDashboard();
+  const { formatCurrency } = useCurrency();
   const { messages, sendMessage } = useChat();
   const [adminReply, setAdminReply] = useState('');
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -254,11 +256,11 @@ const AdminDashboard = () => {
               marginBottom: '32px' 
             }}>
               <Card icon="👥" label="Users" value={stats.totalUsers} color="#3B82F6" />
-              <Card icon="💰" label="Balance" value={`$${stats.totalBalance.toLocaleString()}`} color="#10B981" />
+              <Card icon="💰" label="Balance" value={formatCurrency(stats.totalBalance)} color="#10B981" />
               <Card icon="🔴" label="Live" value={stats.activeMatches} color="#EF4444" />
               <Card icon="💳" label="Payments" value={stats.pendingPayments} color="#F59E0B" />
               <Card icon="💸" label="Withdraw" value={stats.pendingWithdrawals} color="#E34360" />
-              <Card icon="📈" label="Revenue" value={`$${stats.totalRevenue.toLocaleString()}`} color="#8B5CF6" />
+              <Card icon="📈" label="Revenue" value={formatCurrency(stats.totalRevenue)} color="#8B5CF6" />
             </div>
             {/* Recent activity */}
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '20px', padding: '24px' }}>
@@ -266,7 +268,7 @@ const AdminDashboard = () => {
               {paymentRequests.slice(0, 5).map(p => (
                 <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                   <img src={p.userAvatar} style={{ width: '36px', height: '36px', borderRadius: '10px' }} alt="" />
-                  <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{p.userName}</div><div style={{ color: '#6B7280', fontSize: '0.8rem' }}>Deposit ${p.amount} via {p.paymentMethod}</div></div>
+                  <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{p.userName}</div><div style={{ color: '#6B7280', fontSize: '0.8rem' }}>Deposit {formatCurrency(p.amount)} via {p.paymentMethod}</div></div>
                   <StatusBadge status={p.status} />
                 </div>
               ))}
@@ -359,7 +361,7 @@ const AdminDashboard = () => {
                          {match.winners.map(w => (
                            <div key={w.rank} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '4px' }}>
                              <span style={{ color: '#9CA3AF' }}>{w.rank === 1 ? '🥇' : w.rank === 2 ? '🥈' : '🥉'} {w.userName}</span>
-                             <span style={{ fontWeight: 800, color: '#fff' }}>+${w.reward}</span>
+                             <span style={{ fontWeight: 800, color: '#fff' }}>+{formatCurrency(w.reward)}</span>
                            </div>
                          ))}
                        </div>
@@ -395,7 +397,7 @@ const AdminDashboard = () => {
                     <div style={{ background: 'rgba(255,255,255,0.02)', padding: '16px', borderRadius: '16px', marginBottom: '16px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                         <span style={{ color: '#6B7280', fontSize: '0.8rem', fontWeight: 600 }}>Amount</span>
-                        <span style={{ fontWeight: 800, color: '#10B981', fontSize: '1.1rem' }}>${p.amount}</span>
+                        <span style={{ fontWeight: 800, color: '#10B981', fontSize: '1.1rem' }}>{formatCurrency(p.amount)}</span>
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                         <span style={{ color: '#6B7280', fontSize: '0.8rem', fontWeight: 600 }}>Method</span>
@@ -436,7 +438,7 @@ const AdminDashboard = () => {
                             <span style={{ fontWeight: 700, fontSize: '0.95rem' }}>{p.userName}</span>
                           </div>
                         </td>
-                        <td style={{ padding: '16px 20px', fontWeight: 800, color: '#10B981', fontSize: '1.1rem' }}>${p.amount}</td>
+                        <td style={{ padding: '16px 20px', fontWeight: 800, color: '#10B981', fontSize: '1.1rem' }}>{formatCurrency(p.amount)}</td>
                         <td style={{ padding: '16px 20px' }}><code style={{ background: 'rgba(255,255,255,0.06)', padding: '6px 12px', borderRadius: '8px', fontSize: '0.85rem', color: '#F96F2E' }}>{p.transactionId}</code></td>
                         <td style={{ padding: '16px 20px', color: '#9CA3AF', fontWeight: 600 }}>{p.paymentMethod}</td>
                         <td style={{ padding: '16px 20px', color: '#6B7280', fontSize: '0.8rem' }}>{p.timestamp}</td>
@@ -482,7 +484,7 @@ const AdminDashboard = () => {
                     <div style={{ background: 'rgba(255,255,255,0.02)', padding: '16px', borderRadius: '16px', marginBottom: '16px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                         <span style={{ color: '#6B7280', fontSize: '0.8rem', fontWeight: 600 }}>Amount</span>
-                        <span style={{ fontWeight: 800, color: '#EF4444', fontSize: '1.1rem' }}>-${w.amount}</span>
+                        <span style={{ fontWeight: 800, color: '#EF4444', fontSize: '1.1rem' }}>-{formatCurrency(w.amount)}</span>
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                         <span style={{ color: '#6B7280', fontSize: '0.8rem', fontWeight: 600 }}>Method</span>
@@ -522,7 +524,7 @@ const AdminDashboard = () => {
                             <span style={{ fontWeight: 700, fontSize: '0.95rem' }}>{w.userName}</span>
                           </div>
                         </td>
-                        <td style={{ padding: '16px 20px', fontWeight: 800, color: '#EF4444', fontSize: '1.1rem' }}>-${w.amount}</td>
+                        <td style={{ padding: '16px 20px', fontWeight: 800, color: '#EF4444', fontSize: '1.1rem' }}>-{formatCurrency(w.amount)}</td>
                         <td style={{ padding: '16px 20px', color: '#9CA3AF', fontWeight: 600 }}>{w.withdrawMethod}</td>
                         <td style={{ padding: '16px 20px' }}><code style={{ background: 'rgba(255,255,255,0.06)', padding: '6px 12px', borderRadius: '8px', fontSize: '0.85rem' }}>{w.accountNumber}</code></td>
                         <td style={{ padding: '16px 20px', color: '#9CA3AF', fontWeight: 500 }}>{w.accountName}</td>
@@ -565,7 +567,7 @@ const AdminDashboard = () => {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px', background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '12px' }}>
                       <div>
                         <div style={{ color: '#6B7280', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase' }}>Balance</div>
-                        <div style={{ fontWeight: 800, color: '#10B981' }}>${u.balance.toLocaleString()}</div>
+                        <div style={{ fontWeight: 800, color: '#10B981' }}>{formatCurrency(u.balance)}</div>
                       </div>
                       <div>
                         <div style={{ color: '#6B7280', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase' }}>Wins/Matches</div>
@@ -602,7 +604,7 @@ const AdminDashboard = () => {
                           </div>
                         </td>
                         <td style={{ padding: '16px 20px' }}><StatusBadge status={u.status} /></td>
-                        <td style={{ padding: '16px 20px', fontWeight: 800, color: '#10B981' }}>${u.balance.toLocaleString()}</td>
+                        <td style={{ padding: '16px 20px', fontWeight: 800, color: '#10B981' }}>{formatCurrency(u.balance)}</td>
                         <td style={{ padding: '16px 20px' }}>{u.totalMatches}</td>
                         <td style={{ padding: '16px 20px' }}>{u.totalWins}</td>
                         <td style={{ padding: '16px 20px', color: '#9CA3AF' }}>{u.phone}</td>
@@ -625,7 +627,7 @@ const AdminDashboard = () => {
               <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)' }}>
                 <div style={{ background: '#161821', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', padding: '32px', width: '90%', maxWidth: '400px' }}>
                   <h3 style={{ fontWeight: 800, marginBottom: '24px' }}>💰 Edit User Balance</h3>
-                  <label style={{ color: '#9CA3AF', fontSize: '0.8rem', fontWeight: 700, display: 'block', marginBottom: '8px' }}>New Balance Amount ($)</label>
+                  <label style={{ color: '#9CA3AF', fontSize: '0.8rem', fontWeight: 700, display: 'block', marginBottom: '8px' }}>New Balance Amount ({currency === 'BDT' ? '৳' : '$'})</label>
                   <input type="number" value={newBalance} onChange={e => setNewBalance(e.target.value)} style={{ width: '100%', padding: '16px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', color: '#fff', fontSize: '1.2rem', fontWeight: 800, outline: 'none', marginBottom: '24px', boxSizing: 'border-box' }} />
                   <div style={{ display: 'flex', gap: '12px' }}>
                     <Btn style={{ flex: 1 }} onClick={() => { updateUserBalance(editBalanceUser, parseFloat(newBalance)); setEditBalanceUser(null); }}>Update Balance</Btn>

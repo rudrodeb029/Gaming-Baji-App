@@ -18,35 +18,37 @@ import { AdminProvider } from './context/AdminContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { AdminDashboardProvider } from './context/AdminDashboardContext';
-
+import { CurrencyProvider } from './context/CurrencyContext';
 function App() {
   return (
     <LanguageProvider>
       <ThemeProvider>
-        <AdminDashboardProvider>
-          <BalanceProvider>
-            <AdminProvider>
-              <ChatProvider>
-                <Router>
-                  <Routes>
-                    <Route path="/" element={<Splash />} />
-                    <Route path="/onboarding" element={<Onboarding />} />
-                    <Route path="/auth" element={<Auth />} />
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/wallet" element={<Wallet />} />
-                    <Route path="/my-bets" element={<MyBets />} />
-                    <Route path="/match/:id" element={<MatchDetails />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/admin" element={<AdminLogin />} />
-                    <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                  </Routes>
-                  <LiveChat />
-                  <WinnerCelebration />
-                </Router>
-              </ChatProvider>
-            </AdminProvider>
-          </BalanceProvider>
-        </AdminDashboardProvider>
+        <CurrencyProvider>
+          <AdminDashboardProvider>
+            <BalanceProvider>
+              <AdminProvider>
+                <ChatProvider>
+                  <Router>
+                    <Routes>
+                      <Route path="/" element={<Splash />} />
+                      <Route path="/onboarding" element={<Onboarding />} />
+                      <Route path="/auth" element={<Auth />} />
+                      <Route path="/home" element={<Home />} />
+                      <Route path="/wallet" element={<Wallet />} />
+                      <Route path="/my-bets" element={<MyBets />} />
+                      <Route path="/match/:id" element={<MatchDetails />} />
+                      <Route path="/profile" element={<Profile />} />
+                      <Route path="/admin" element={<AdminLogin />} />
+                      <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                    </Routes>
+                    <LiveChat />
+                    <WinnerCelebration />
+                  </Router>
+                </ChatProvider>
+              </AdminProvider>
+            </BalanceProvider>
+          </AdminDashboardProvider>
+        </CurrencyProvider>
       </ThemeProvider>
     </LanguageProvider>
   );

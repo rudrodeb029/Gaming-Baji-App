@@ -4,6 +4,8 @@ import BottomNav from '../components/BottomNav';
 import { useBalance } from '../context/BalanceContext';
 import { useAdmin } from '../context/AdminContext';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
+import { useCurrency } from '../context/CurrencyContext';
 import { useAdminDashboard } from '../context/AdminDashboardContext';
 import { 
   Plus, 
@@ -23,6 +25,8 @@ import GlobalActivityFeed from '../components/GlobalActivityFeed';
 
 const Wallet = () => {
   const { isDarkMode } = useTheme();
+  const { t } = useLanguage();
+  const { formatCurrency } = useCurrency();
   const { isAdminMode } = useAdmin();
   const { balance, addBalance, deductBalance, transactions: localTransactions } = useBalance();
   const { addPaymentRequest, addWithdrawalRequest, paymentRequests, withdrawalRequests } = useAdminDashboard();
@@ -329,10 +333,8 @@ const Wallet = () => {
           <div style={{ zIndex: 1, marginTop: '10px' }}>
             <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', fontWeight: 600, marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Total Balance</div>
             <div style={{ display: 'flex', alignItems: 'baseline' }}>
-              <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--accent-orange)', marginRight: '4px' }}>$</span>
-              <h2 style={{ fontSize: '2.8rem', fontWeight: 900, margin: 0, letterSpacing: '-0.02em', lineHeight: 1, color: 'white' }}>
-                {Math.floor(balance).toLocaleString()}
-                <span style={{ fontSize: '1.4rem', color: 'rgba(255,255,255,0.5)', fontWeight: 700 }}>.{(balance % 1).toFixed(2).split('.')[1]}</span>
+              <h2 style={{ fontSize: '2.5rem', fontWeight: 900, margin: 0, letterSpacing: '-0.02em', lineHeight: 1, color: 'white' }}>
+                {formatCurrency(balance)}
               </h2>
             </div>
           </div>
@@ -508,7 +510,7 @@ const Wallet = () => {
                   }}
                 >
 
-                  ${amount}
+                  {formatCurrency(amount)}
                 </button>
               ))}
             </div>
@@ -517,7 +519,7 @@ const Wallet = () => {
               <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '12px', fontWeight: 700, textTransform: 'uppercase' }}>Custom Amount</label>
 
               <div style={{ position: 'relative' }}>
-                <span style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', fontSize: '1.4rem', fontWeight: 900, color: 'var(--accent-orange)' }}>$</span>
+                <span style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', fontSize: '1.4rem', fontWeight: 900, color: 'var(--accent-orange)' }}>{currency === 'BDT' ? '৳' : '$'}</span>
                 <input 
                   type="number" 
                   value={depositAmount}
@@ -665,7 +667,7 @@ const Wallet = () => {
             </div>
 
                         <div style={{ position: 'relative', marginBottom: '24px' }}>
-              <span style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', fontSize: '1.2rem', fontWeight: 900, color: 'var(--accent-orange)' }}>$</span>
+              <span style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', fontSize: '1.2rem', fontWeight: 900, color: 'var(--accent-orange)' }}>{currency === 'BDT' ? '৳' : '$'}</span>
               <input 
                 type="number" 
                 placeholder="Withdraw amount"
@@ -839,7 +841,7 @@ const Wallet = () => {
                       color: tx.amount > 0 ? '#10B981' : 'var(--text-primary)',
                       marginBottom: '2px'
                     }}>
-                      {tx.amount > 0 ? '+' : '-'}${Math.abs(tx.amount).toLocaleString()}
+                      {tx.amount > 0 ? '+' : '-'}{formatCurrency(Math.abs(tx.amount))}
                     </div>
                     <div style={{ 
                       color: tx.status === 'Completed' || tx.status === 'Approved' ? '#10B981' : tx.status === 'Rejected' ? '#EF4444' : '#F59E0B', 
@@ -911,7 +913,7 @@ const Wallet = () => {
             </div>
             <h3 style={{ fontSize: '1.6rem', fontWeight: 900, marginBottom: '12px' }}>Confirm via {localGateways.find((g: any) => g.id === selectedGateway)?.name}</h3>
             <p style={{ color: '#9CA3AF', marginBottom: '40px', lineHeight: 1.6 }}>
-              You are adding <span style={{ color: '#10B981', fontWeight: 900 }}>${parseFloat(depositAmount).toLocaleString()}</span> to your wallet using <span style={{ color: localGateways.find((g: any) => g.id === selectedGateway)?.color, fontWeight: 800 }}>{localGateways.find((g: any) => g.id === selectedGateway)?.name}</span>.
+              You are adding <span style={{ color: '#10B981', fontWeight: 900 }}>{formatCurrency(parseFloat(depositAmount))}</span> to your wallet using <span style={{ color: localGateways.find((g: any) => g.id === selectedGateway)?.color, fontWeight: 800 }}>{localGateways.find((g: any) => g.id === selectedGateway)?.name}</span>.
             </p>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -989,7 +991,7 @@ const Wallet = () => {
             </div>
             <h3 style={{ fontSize: '1.6rem', fontWeight: 900, marginBottom: '12px' }}>Confirm Withdrawal</h3>
             <p style={{ color: '#9CA3AF', marginBottom: '40px', lineHeight: 1.6 }}>
-              You are requesting to withdraw <span style={{ color: 'var(--accent-orange)', fontWeight: 900 }}>${parseFloat(withdrawAmount).toLocaleString()}</span> to your <span style={{ color: savedMethods.find((m: any) => m.id === selectedWithdrawMethod)?.color, fontWeight: 800 }}>{savedMethods.find((m: any) => m.id === selectedWithdrawMethod)?.name}</span> account ({savedMethods.find((m: any) => m.id === selectedWithdrawMethod)?.number}).
+              You are requesting to withdraw <span style={{ color: 'var(--accent-orange)', fontWeight: 900 }}>{formatCurrency(parseFloat(withdrawAmount))}</span> to your <span style={{ color: savedMethods.find((m: any) => m.id === selectedWithdrawMethod)?.color, fontWeight: 800 }}>{savedMethods.find((m: any) => m.id === selectedWithdrawMethod)?.name}</span> account ({savedMethods.find((m: any) => m.id === selectedWithdrawMethod)?.number}).
             </p>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>

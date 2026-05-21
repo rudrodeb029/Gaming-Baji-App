@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { currentUser } from '../data/mockData';
 import { useBalance } from '../context/BalanceContext';
 import { useAdmin } from '../context/AdminContext';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface SideMenuProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ const SideMenu = ({ isOpen, onClose }: SideMenuProps) => {
   const navigate = useNavigate();
   const { balance } = useBalance();
   const { isAdminMode, toggleAdminMode } = useAdmin();
+  const { formatCurrency } = useCurrency();
   
   if (!isOpen) return null;
 
@@ -76,7 +78,7 @@ const SideMenu = ({ isOpen, onClose }: SideMenuProps) => {
               Wallet
             </div>
             <span style={{ fontSize: '0.85rem', color: 'var(--accent-orange)', fontWeight: 800, background: 'rgba(249, 111, 46, 0.1)', padding: '6px 12px', borderRadius: '12px', border: '1px solid rgba(249, 111, 46, 0.2)' }}>
-              ${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              {formatCurrency(balance)}
             </span>
           </button>
 

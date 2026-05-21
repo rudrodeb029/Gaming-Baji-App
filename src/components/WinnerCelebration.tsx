@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useAdminDashboard } from '../context/AdminDashboardContext';
 import { Trophy, Medal, Star, X, Crown, Sparkles, Target } from 'lucide-react';
+import { useCurrency } from '../context/CurrencyContext';
 
 const WinnerCelebration: React.FC = () => {
   const { activeWinnerCeremony, clearWinnerCeremony } = useAdminDashboard();
+  const { formatCurrency } = useCurrency();
   const [isVisible, setIsVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -233,7 +235,7 @@ const WinnerCelebration: React.FC = () => {
                 </div>
 
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontWeight: 900, color: '#10B981', fontSize: '1.4rem', fontFamily: 'monospace' }}>${winner.reward}</div>
+                  <div style={{ fontWeight: 900, color: '#10B981', fontSize: '1.4rem', fontFamily: 'monospace' }}>+{formatCurrency(winner.reward)}</div>
                   <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.3)', fontWeight: 800 }}>CLAIMED</div>
                 </div>
               </div>
