@@ -107,7 +107,7 @@ const GlobalActivityFeed: React.FC = () => {
 
 
                 <div className="relative z-10" style={{ flexShrink: 0 }}>
-                  <div className={`relative overflow-visible bg-black/40`} style={{ width: '60px', height: '60px', borderRadius: '50%', padding: '2px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <div className={`relative overflow-visible bg-black/40`} style={{ width: '48px', height: '48px', borderRadius: '50%', padding: '2px', border: '1px solid rgba(255,255,255,0.1)' }}>
                     <img 
                       src={displayAvatar} 
                       alt={displayUserName}
@@ -117,33 +117,33 @@ const GlobalActivityFeed: React.FC = () => {
                 </div>
 
                 <div className="z-10" style={{ flex: 1, minWidth: 0 }}>
-                  <div className="flex justify-between items-center" style={{ marginBottom: '6px' }}>
-                    <div className="flex items-center gap-2">
-                      <h4 className={`text-bold truncate transition-colors ${isMine ? 'text-orange-400' : 'text-white'}`} style={{ fontSize: '1rem', margin: 0 }}>
+                  <div className="flex justify-between items-start" style={{ marginBottom: '4px' }}>
+                    <div className="flex items-center flex-wrap gap-1" style={{ flex: 1, minWidth: 0, paddingRight: '8px' }}>
+                      <h4 className={`text-bold truncate transition-colors ${isMine ? 'text-orange-400' : 'text-white'}`} style={{ fontSize: '0.85rem', margin: 0, maxWidth: '85px' }}>
                         {displayUserName}
                       </h4>
                       {isMine && (
-                        <span style={{ fontSize: '10px', background: 'var(--accent-orange)', color: 'black', padding: '2px 8px', borderRadius: '12px', textTransform: 'uppercase', fontWeight: 900, fontStyle: 'italic', letterSpacing: '-0.05em', boxShadow: '0 0 10px rgba(249,115,22,0.3)' }}>
+                        <span style={{ fontSize: '8px', background: 'var(--accent-orange)', color: 'black', padding: '2px 6px', borderRadius: '10px', textTransform: 'uppercase', fontWeight: 900, fontStyle: 'italic', letterSpacing: '-0.02em', boxShadow: '0 0 10px rgba(249,115,22,0.3)' }}>
                           YOU
                         </span>
                       )}
                       {isHighValue && (
-                        <span style={{ fontSize: '10px', background: 'rgba(251,191,36,0.2)', color: '#FBBF24', border: '1px solid rgba(251,191,36,0.3)', padding: '2px 8px', borderRadius: '12px', textTransform: 'uppercase', fontWeight: 900 }}>
+                        <span style={{ fontSize: '8px', background: 'rgba(251,191,36,0.2)', color: '#FBBF24', border: '1px solid rgba(251,191,36,0.3)', padding: '2px 6px', borderRadius: '10px', textTransform: 'uppercase', fontWeight: 900 }}>
                           High Roller
                         </span>
                       )}
                     </div>
-                    <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.2)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap', marginLeft: '12px' }}>
+                    <span style={{ fontSize: '8px', color: 'rgba(255,255,255,0.3)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', whiteSpace: 'nowrap', marginTop: '2px' }}>
                       {activity.timestamp}
                     </span>
                   </div>
-                  <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', fontWeight: 600, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', fontWeight: 600, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '6px' }}>
                     {getMessage(activity, isPrivate)}
                   </div>
                 </div>
 
                 {activity.status && (
-                  <div className={`shrink-0 text-[9px] px-3.5 py-2 rounded-2xl border-2 uppercase font-black tracking-widest z-10 transition-all duration-500 ${
+                  <div className={`shrink-0 text-[8px] px-2 py-1 rounded-xl border-2 uppercase font-black tracking-widest z-10 transition-all duration-500 ${
                     activity.status === 'approved' || activity.status === 'completed' 
                       ? 'bg-emerald-500/5 text-emerald-400 border-emerald-500/20 group-hover:bg-emerald-500/20 group-hover:border-emerald-500/40'
                       : activity.status === 'pending' || activity.status === 'processing'
@@ -154,7 +154,7 @@ const GlobalActivityFeed: React.FC = () => {
                   </div>
                 )}
                 
-                <div className={`z-10 flex shrink-0 items-center justify-center p-3 rounded-2xl border border-white/10 shadow-2xl transition-transform duration-500 group-hover:scale-110 ${
+                <div className={`z-10 flex shrink-0 items-center justify-center p-2 rounded-xl border border-white/10 shadow-2xl transition-transform duration-500 group-hover:scale-110 ${
                     activity.type === 'deposit' ? 'bg-emerald-500/20 backdrop-blur-xl' :
                     activity.type === 'withdrawal' ? 'bg-rose-500/20 backdrop-blur-xl' :
                     activity.type === 'join' ? 'bg-blue-500/20 backdrop-blur-xl' :
