@@ -432,7 +432,7 @@ const Wallet = () => {
                       height: '100%'
                     }}
                   >
-                    <img src={gw.logo} alt={gw.name} style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+                    <img src={gw.logo} alt={gw.name} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '50%' }} />
                     <span style={{ fontSize: '0.75rem', fontWeight: 800 }}>{gw.name}</span>
                   </div>
                   
@@ -579,7 +579,7 @@ const Wallet = () => {
                   <div key={method.id} style={{ background: 'var(--glass-bg)', padding: '16px', borderRadius: '20px', border: '1px solid var(--glass-border)', boxShadow: 'var(--card-shadow)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
-                        <img src={method.icon} alt={method.name} style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
+                        <img src={method.icon} alt={method.name} style={{ width: '24px', height: '24px', objectFit: 'cover', borderRadius: '50%' }} />
                       </div>
                       <div>
                         <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-primary)' }}>{method.name}</div>
@@ -629,7 +629,7 @@ const Wallet = () => {
                   }}
                 >
                   <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
-                    <img src={method.icon} alt={method.name} style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
+                    <img src={method.icon} alt={method.name} style={{ width: '24px', height: '24px', objectFit: 'cover', borderRadius: '50%' }} />
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: '0.95rem', fontWeight: 800 }}>{method.name}</div>
@@ -907,7 +907,7 @@ const Wallet = () => {
               margin: '0 auto 24px',
               border: `1px solid ${localGateways.find((g: any) => g.id === selectedGateway)?.color}33`
             }}>
-              <img src={localGateways.find((g: any) => g.id === selectedGateway)?.logo} style={{ width: '50px' }} alt="" />
+              <img src={localGateways.find((g: any) => g.id === selectedGateway)?.logo} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '50%' }} alt="" />
             </div>
             <h3 style={{ fontSize: '1.6rem', fontWeight: 900, marginBottom: '12px' }}>Confirm via {localGateways.find((g: any) => g.id === selectedGateway)?.name}</h3>
             <p style={{ color: '#9CA3AF', marginBottom: '40px', lineHeight: 1.6 }}>
@@ -985,7 +985,7 @@ const Wallet = () => {
               margin: '0 auto 24px',
               border: `1px solid ${savedMethods.find((m: any) => m.id === selectedWithdrawMethod)?.color}33`
             }}>
-              <img src={savedMethods.find((m: any) => m.id === selectedWithdrawMethod)?.icon} style={{ width: '50px' }} alt="" />
+              <img src={savedMethods.find((m: any) => m.id === selectedWithdrawMethod)?.icon} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '50%' }} alt="" />
             </div>
             <h3 style={{ fontSize: '1.6rem', fontWeight: 900, marginBottom: '12px' }}>Confirm Withdrawal</h3>
             <p style={{ color: '#9CA3AF', marginBottom: '40px', lineHeight: 1.6 }}>
