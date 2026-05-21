@@ -26,7 +26,7 @@ import GlobalActivityFeed from '../components/GlobalActivityFeed';
 const Wallet = () => {
   const { isDarkMode } = useTheme();
   const { t } = useLanguage();
-  const { formatCurrency } = useCurrency();
+  const { formatCurrency, currency } = useCurrency();
   const { isAdminMode } = useAdmin();
   const { balance, addBalance, deductBalance, transactions: localTransactions } = useBalance();
   const { addPaymentRequest, addWithdrawalRequest, paymentRequests, withdrawalRequests } = useAdminDashboard();
