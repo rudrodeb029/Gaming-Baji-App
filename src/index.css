@@ -48,6 +48,13 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 14px;
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
 }
 
 body {
