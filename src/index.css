@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+/* Removed Outfit font import to use native system fonts */
 
 :root {
   --bg-dark: #0A0C14;
@@ -58,7 +58,7 @@ html {
 }
 
 body {
-  font-family: 'Outfit', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   background: var(--bg-dark);
   color: var(--text-primary);
   min-height: 100vh;
@@ -133,7 +133,7 @@ body {
   justify-content: center;
   padding: 16px 32px;
   border-radius: 16px;
-  font-family: 'Outfit', sans-serif;
+  font-family: inherit;
   font-weight: 600;
   font-size: 1.1rem;
   cursor: pointer;
@@ -216,7 +216,7 @@ body {
   border-radius: 12px;
   padding: 16px;
   color: var(--text-primary);
-  font-family: 'Outfit', sans-serif;
+  font-family: inherit;
   font-size: 1rem;
   outline: none;
   transition: border-color 0.3s;
