@@ -239,11 +239,7 @@ const Home = () => {
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', fontWeight: 500 }}>{t('arenaSub')}</p>
         
-        {/* Decorative FF Logo */}
-        <img 
-          src="https://upload.wikimedia.org/wikipedia/en/3/36/Free_Fire_logo.png" 
-          style={{ position: 'absolute', right: '12px', top: '40px', width: '80px', opacity: 0.1, filter: isDarkMode ? 'grayscale(1)' : 'none' }} 
-        alt="FF" />
+
       </div>
 
       <HomeStats 
