@@ -149,8 +149,8 @@ const SliderCard = ({ group, players, team1, team2, score, time, bids, totalBids
       style={{
         background: 'var(--glass-bg)',
         color: 'var(--text-primary)',
-        borderRadius: '32px',
-        padding: '24px',
+        borderRadius: '24px',
+        padding: '16px',
         width: '100%',
         border: `1px solid ${isFull ? 'rgba(239, 68, 68, 0.2)' : isLive ? 'rgba(16, 185, 129, 0.3)' : 'var(--glass-border)'}`,
         cursor: isFull ? 'not-allowed' : 'pointer',

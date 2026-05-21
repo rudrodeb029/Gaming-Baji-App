@@ -122,8 +122,8 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  padding: 24px;
+  border-radius: 20px;
+  padding: 16px;
 }
 
 /* Buttons */
@@ -131,8 +131,8 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 32px;
-  border-radius: 16px;
+  padding: 14px 24px;
+  border-radius: 14px;
   font-family: inherit;
   font-weight: 600;
   font-size: 1.1rem;
