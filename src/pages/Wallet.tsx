@@ -78,6 +78,10 @@ const Wallet = () => {
 
     let changed = false;
     const updatedGateways = localGateways.map((gw: any) => {
+      if (gw.name.toLowerCase() === 'rocket' || gw.id === 'rocket-default') {
+        changed = true;
+        return { ...gw, id: 'binance-default', name: 'Binance', color: '#F3BA2F', logo: assetMap['binance'] };
+      }
       if (gw.logo && gw.logo.includes('seeklogo.com')) {
         const key = gw.name.toLowerCase();
         if (assetMap[key]) {
@@ -89,6 +93,10 @@ const Wallet = () => {
     });
 
     const updatedMethods = savedMethods.map((m: any) => {
+      if (m.name.toLowerCase() === 'rocket') {
+        changed = true;
+        return { ...m, name: 'Binance', icon: assetMap['binance'], color: '#F3BA2F' };
+      }
       if (m.icon && m.icon.includes('seeklogo.com')) {
         const key = m.name.toLowerCase();
         if (assetMap[key]) {
