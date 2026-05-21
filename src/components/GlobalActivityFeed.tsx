@@ -116,10 +116,10 @@ const GlobalActivityFeed: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="z-10" style={{ flex: 1, minWidth: 0 }}>
-                  <div className="flex justify-between items-start" style={{ marginBottom: '4px' }}>
-                    <div className="flex items-center flex-wrap gap-1" style={{ flex: 1, minWidth: 0, paddingRight: '8px' }}>
-                      <h4 className={`text-bold truncate transition-colors ${isMine ? 'text-orange-400' : 'text-white'}`} style={{ fontSize: '0.85rem', margin: 0, maxWidth: '85px' }}>
+                <div className="z-10" style={{ flex: 1, minWidth: 0, paddingRight: '4px' }}>
+                  <div className="flex items-start" style={{ marginBottom: '4px' }}>
+                    <div className="flex items-center flex-wrap gap-1" style={{ flex: 1, minWidth: 0 }}>
+                      <h4 className={`text-bold truncate transition-colors ${isMine ? 'text-orange-400' : 'text-white'}`} style={{ fontSize: '0.85rem', margin: 0, maxWidth: '100px' }}>
                         {displayUserName}
                       </h4>
                       {isMine && (
@@ -133,12 +133,12 @@ const GlobalActivityFeed: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    <span style={{ fontSize: '8px', color: 'rgba(255,255,255,0.3)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', whiteSpace: 'nowrap', marginTop: '2px' }}>
-                      {activity.timestamp}
-                    </span>
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', fontWeight: 600, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    {getMessage(activity, isPrivate)}
+                  <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', fontWeight: 600, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                    <span>{getMessage(activity, isPrivate)}</span>
+                    <span style={{ fontSize: '8px', color: 'rgba(255,255,255,0.3)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      • {activity.timestamp}
+                    </span>
                   </div>
                 </div>
 
