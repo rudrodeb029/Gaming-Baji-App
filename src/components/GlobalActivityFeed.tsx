@@ -51,68 +51,6 @@ const GlobalActivityFeed: React.FC = () => {
   return (
     <div className="space-y-4">
       <style>{`
-        @keyframes slideInUpModern {
-          0% { opacity: 0; transform: translateY(30px) scale(0.95); filter: blur(10px); }
-          100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-        }
-        .activity-item {
-          animation: slideInUpModern 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
-        }
-        .glow-avatar-win::after {
-          content: '';
-          position: absolute;
-          inset: -3px;
-          border-radius: 50%;
-          background: conic-gradient(from 0deg, transparent, #fbbf24, transparent);
-          animation: rotate 4s linear infinite;
-          z-index: -1;
-          opacity: 0.6;
-        }
-        .glow-avatar-deposit::after {
-          content: '';
-          position: absolute;
-          inset: -3px;
-          border-radius: 50%;
-          background: conic-gradient(from 0deg, transparent, #10b981, transparent);
-          animation: rotate 6s linear infinite;
-          z-index: -1;
-          opacity: 0.4;
-        }
-        .glow-avatar-withdrawal::after {
-          content: '';
-          position: absolute;
-          inset: -3px;
-          border-radius: 50%;
-          background: conic-gradient(from 0deg, transparent, #ef4444, transparent);
-          animation: rotate 8s linear infinite;
-          z-index: -1;
-          opacity: 0.4;
-        }
-        @keyframes rotate {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .live-dot {
-          box-shadow: 0 0 10px #10b981;
-        }
-        .shine-effect {
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 50%;
-          height: 100%;
-          background: linear-gradient(
-            to right,
-            transparent,
-            rgba(255, 255, 255, 0.1),
-            transparent
-          );
-          transform: skewX(-25deg);
-          transition: 0.75s;
-        }
-        .activity-item:hover .shine-effect {
-          left: 150%;
-        }
         .custom-scrollbar::-webkit-scrollbar {
           width: 4px;
         }
@@ -157,28 +95,19 @@ const GlobalActivityFeed: React.FC = () => {
             return (
               <div 
                 key={activity.id}
-                className="activity-item group relative flex items-center transition-all duration-500 overflow-hidden"
+                className="group relative flex items-center overflow-hidden"
                 style={{ 
                   gap: '16px', 
                   padding: '20px', 
                   borderRadius: '24px', 
                   background: 'rgba(255,255,255,0.03)', 
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  animationDelay: `${index * 0.08}s` 
+                  border: '1px solid rgba(255,255,255,0.1)'
                 }}
               >
-                <div className="shine-effect"></div>
 
-                {/* Left Accent Bar */}
-                <div className={`absolute left-0 top-1/4 bottom-1/4 w-1 rounded-r-full transition-all duration-500 group-hover:top-0 group-hover:bottom-0 ${
-                  activity.type === 'deposit' ? 'bg-emerald-500' :
-                  activity.type === 'withdrawal' ? 'bg-rose-500' :
-                  activity.type === 'win' ? 'bg-amber-500' :
-                  'bg-blue-500'
-                }`}></div>
 
                 <div className="relative z-10" style={{ flexShrink: 0 }}>
-                  <div className={`relative overflow-visible bg-black/40 ${glowClass}`} style={{ width: '60px', height: '60px', borderRadius: '50%', padding: '2px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <div className={`relative overflow-visible bg-black/40`} style={{ width: '60px', height: '60px', borderRadius: '50%', padding: '2px', border: '1px solid rgba(255,255,255,0.1)' }}>
                     <img 
                       src={displayAvatar} 
                       alt={displayUserName}

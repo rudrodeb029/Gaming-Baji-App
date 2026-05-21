@@ -44,7 +44,7 @@ const Wallet = () => {
     return [
       { id: 'bkash-default', name: 'Bkash', color: '#E2136E', logo: 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Bkash.png' },
       { id: 'nagad-default', name: 'Nagad', color: '#F15A22', logo: 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Nagad.png' },
-      { id: 'rocket-default', name: 'Rocket', color: '#8C3494', logo: 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Rocket.png' }
+      { id: 'binance-default', name: 'Binance', color: '#F3BA2F', logo: 'https://cryptologos.cc/logos/bnb-bnb-logo.png' }
     ];
   });
 
@@ -73,7 +73,7 @@ const Wallet = () => {
     const assetMap: Record<string, string> = {
       'bkash': 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Bkash.png',
       'nagad': 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Nagad.png',
-      'rocket': 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Rocket.png'
+      'binance': 'https://cryptologos.cc/logos/bnb-bnb-logo.png'
     };
 
     let changed = false;
@@ -173,12 +173,12 @@ const Wallet = () => {
     const icons: Record<string, string> = {
       'bkash': 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Bkash.png',
       'nagad': 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Nagad.png',
-      'rocket': 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Rocket.png'
+      'binance': 'https://cryptologos.cc/logos/bnb-bnb-logo.png'
     };
     const colors: Record<string, string> = {
       'bkash': '#E2136E',
       'nagad': '#F15A22',
-      'rocket': '#8C3494'
+      'binance': '#F3BA2F'
     };
     const newEntry = {
       id: Date.now().toString(),
@@ -1062,10 +1062,10 @@ const Wallet = () => {
                   NAGAD
                 </button>
                 <button 
-                  onClick={() => addPresetGateway('Rocket', '#8C3494', 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Rocket.png')}
-                  style={{ background: 'rgba(140, 52, 148, 0.1)', border: '1px solid rgba(140, 52, 148, 0.2)', padding: '12px 8px', borderRadius: '16px', color: '#8C3494', fontWeight: 800, fontSize: '0.75rem', cursor: 'pointer' }}
+                  onClick={() => addPresetGateway('Binance', '#F3BA2F', 'https://cryptologos.cc/logos/bnb-bnb-logo.png')}
+                  style={{ background: 'rgba(243, 186, 47, 0.1)', border: '1px solid rgba(243, 186, 47, 0.2)', padding: '12px 8px', borderRadius: '16px', color: '#F3BA2F', fontWeight: 800, fontSize: '0.75rem', cursor: 'pointer' }}
                 >
-                  ROCKET
+                  BINANCE
                 </button>
               </div>
             </div>
@@ -1159,7 +1159,7 @@ const Wallet = () => {
           >
 
             <h3 style={{ fontSize: '1.6rem', fontWeight: 900, marginBottom: '12px' }}>Link <span style={{ color: 'var(--accent-orange)' }}>Account</span></h3>
-            <p style={{ color: '#9CA3AF', marginBottom: '32px' }}>Link your Bkash, Nagad or Rocket for quick payments.</p>
+            <p style={{ color: '#9CA3AF', marginBottom: '32px' }}>Link your Bkash, Nagad or Binance for quick payments.</p>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
               <select 
@@ -1170,7 +1170,7 @@ const Wallet = () => {
                 <option value="" style={{ background: 'var(--modal-bg)', color: 'var(--text-primary)' }}>Select Provider</option>
                 <option value="Bkash" style={{ background: 'var(--modal-bg)', color: 'var(--text-primary)' }}>Bkash</option>
                 <option value="Nagad" style={{ background: 'var(--modal-bg)', color: 'var(--text-primary)' }}>Nagad</option>
-                <option value="Rocket" style={{ background: 'var(--modal-bg)', color: 'var(--text-primary)' }}>Rocket</option>
+                <option value="Binance" style={{ background: 'var(--modal-bg)', color: 'var(--text-primary)' }}>Binance</option>
               </select>
 
               <input 

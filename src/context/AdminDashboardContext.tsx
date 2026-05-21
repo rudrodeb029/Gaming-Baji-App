@@ -157,7 +157,7 @@ const demoPayments: PaymentRequest[] = [
   { id: 'pay1', userId: 'u1', userName: 'Elite Moco', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Moco', amount: 500, transactionId: 'TXN8A7B2C9D', paymentMethod: 'Bkash', accountNumber: '01712345678', timestamp: '2026-05-04 10:30 AM', status: 'pending' },
   { id: 'pay2', userId: 'u2', userName: 'Kelly Swift', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Kelly', amount: 1000, transactionId: 'TXN3E4F5G6H', paymentMethod: 'Nagad', accountNumber: '01812987654', timestamp: '2026-05-04 09:15 AM', status: 'pending' },
   { id: 'pay3', userId: 'u3', userName: 'Alok Rhythms', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alok', amount: 2500, transactionId: 'TXN1I2J3K4L', paymentMethod: 'Bkash', accountNumber: '01912456789', timestamp: '2026-05-04 08:00 AM', status: 'pending' },
-  { id: 'pay4', userId: 'u5', userName: 'Chrono Shield', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Chrono', amount: 200, transactionId: 'TXN5M6N7O8P', paymentMethod: 'Rocket', accountNumber: '01512778899', timestamp: '2026-05-03 11:45 PM', status: 'approved' },
+  { id: 'pay4', userId: 'u5', userName: 'Chrono Shield', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Chrono', amount: 200, transactionId: 'TXN5M6N7O8P', paymentMethod: 'Binance', accountNumber: '01512778899', timestamp: '2026-05-03 11:45 PM', status: 'approved' },
   { id: 'pay5', userId: 'u4', userName: 'Hayato Bushido', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Hayato', amount: 100, transactionId: 'TXN9Q0R1S2T', paymentMethod: 'Bkash', accountNumber: '01612112233', timestamp: '2026-05-03 06:30 PM', status: 'rejected', note: 'Invalid transaction ID' },
 ];
 
@@ -165,7 +165,7 @@ const demoWithdrawals: WithdrawalRequest[] = [
   { id: 'wd1', userId: 'u3', userName: 'Alok Rhythms', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alok', amount: 1500, withdrawMethod: 'Bkash', accountNumber: '01912456789', accountName: 'Alok Rahman', timestamp: '2026-05-04 11:00 AM', status: 'pending' },
   { id: 'wd2', userId: 'u5', userName: 'Chrono Shield', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Chrono', amount: 3000, withdrawMethod: 'Nagad', accountNumber: '01512778899', accountName: 'Chrono Ahmed', timestamp: '2026-05-04 09:30 AM', status: 'pending' },
   { id: 'wd3', userId: 'u1', userName: 'Elite Moco', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Moco', amount: 800, withdrawMethod: 'Bkash', accountNumber: '01712345678', accountName: 'Moco Khan', timestamp: '2026-05-03 05:00 PM', status: 'processing' },
-  { id: 'wd4', userId: 'u2', userName: 'Kelly Swift', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Kelly', amount: 500, withdrawMethod: 'Rocket', accountNumber: '01812987654', accountName: 'Kelly Akter', timestamp: '2026-05-02 02:00 PM', status: 'completed' },
+  { id: 'wd4', userId: 'u2', userName: 'Kelly Swift', userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Kelly', amount: 500, withdrawMethod: 'Binance', accountNumber: '01812987654', accountName: 'Kelly Akter', timestamp: '2026-05-02 02:00 PM', status: 'completed' },
 ];
 
 const demoActivities: Activity[] = [

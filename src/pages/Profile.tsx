@@ -106,7 +106,7 @@ const Profile = () => {
     const assetMap: Record<string, string> = {
       'bkash': 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Bkash.png',
       'nagad': 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Nagad.png',
-      'rocket': 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Rocket.png'
+      'binance': 'https://cryptologos.cc/logos/bnb-bnb-logo.png'
     };
 
     let changed = false;
@@ -150,7 +150,7 @@ const Profile = () => {
     const icons: Record<string, string> = {
       'bkash': 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Bkash.png',
       'nagad': 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Nagad.png',
-      'rocket': 'https://raw.githubusercontent.com/ultraDevs/Bangladeshi-Payment-Gateways/master/assets/images/Rocket.png'
+      'binance': 'https://cryptologos.cc/logos/bnb-bnb-logo.png'
     };
     const newEntry = {
       id: Date.now().toString(),
@@ -702,7 +702,7 @@ const Profile = () => {
                         <option value="" style={{ background: 'var(--modal-bg)' }}>Select Provider</option>
                         <option value="Bkash" style={{ background: 'var(--modal-bg)' }}>Bkash</option>
                         <option value="Nagad" style={{ background: 'var(--modal-bg)' }}>Nagad</option>
-                        <option value="Rocket" style={{ background: 'var(--modal-bg)' }}>Rocket</option>
+                        <option value="Binance" style={{ background: 'var(--modal-bg)' }}>Binance</option>
                       </select>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
