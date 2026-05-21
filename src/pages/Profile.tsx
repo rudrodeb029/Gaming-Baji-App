@@ -27,7 +27,8 @@ import {
   Globe,
   MessageSquare,
   Camera,
-  Check
+  Check,
+  DollarSign
 } from 'lucide-react';
 
 const AVATAR_OPTIONS = [
