@@ -373,18 +373,53 @@ const Profile = () => {
             </div>
             {item.customToggle ? (
               <div style={{
-                background: 'var(--glass-border)',
-                padding: '4px 8px',
-                borderRadius: '12px',
-                fontSize: '0.8rem',
-                fontWeight: 900,
-                color: 'var(--text-primary)',
                 display: 'flex',
-                gap: '8px',
-                alignItems: 'center'
+                background: 'var(--glass-border)',
+                borderRadius: '100px',
+                padding: '2px',
+                position: 'relative',
+                width: '74px',
+                height: '30px',
+                boxSizing: 'border-box'
               }}>
-                <span style={{ color: currency === 'USD' ? 'var(--accent-orange)' : 'var(--text-secondary)' }}>$</span>
-                <span style={{ color: currency === 'BDT' ? 'var(--accent-orange)' : 'var(--text-secondary)' }}>৳</span>
+                <div style={{
+                  position: 'absolute',
+                  top: '2px',
+                  left: item.toggleState === 'USD' ? '2px' : '38px',
+                  width: '34px',
+                  height: '26px',
+                  background: 'var(--accent-gradient)',
+                  borderRadius: '100px',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)',
+                  boxShadow: '0 2px 8px rgba(249, 111, 46, 0.3)'
+                }} />
+                
+                <div style={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 1,
+                  color: item.toggleState === 'USD' ? '#fff' : 'var(--text-secondary)',
+                  fontSize: '0.85rem',
+                  fontWeight: 900,
+                  transition: 'color 0.3s'
+                }}>
+                  $
+                </div>
+                <div style={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 1,
+                  color: item.toggleState === 'BDT' ? '#fff' : 'var(--text-secondary)',
+                  fontSize: '0.9rem',
+                  fontWeight: 900,
+                  transition: 'color 0.3s'
+                }}>
+                  ৳
+                </div>
               </div>
             ) : item.isToggle ? (
               <div style={{ 
