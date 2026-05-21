@@ -271,10 +271,6 @@ const SliderCard = ({ group, players, team1, team2, score, time, bids, totalBids
           <div style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '4px' }}>PRIZE POOL</div>
           <div style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--accent-orange)' }}>$1,200</div>
         </div>
-        <div style={{ flex: 1, background: 'var(--glass-bg)', padding: '16px', borderRadius: '20px', border: '1px solid var(--glass-border)' }}>
-          <div style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '4px' }}>PER KILL</div>
-          <div style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--text-primary)' }}>$20</div>
-        </div>
       </div>
 
       {/* Capacity Bar */}
