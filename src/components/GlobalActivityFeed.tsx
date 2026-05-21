@@ -1,0 +1,245 @@
+import React, { useMemo } from 'react';
+import { useAdminDashboard } from '../context/AdminDashboardContext';
+import { TrendingUp, ArrowUpRight, ArrowDownRight, UserPlus, Flame, Trophy, Zap, Star } from 'lucide-react';
+
+const GlobalActivityFeed: React.FC = () => {
+  const { activities } = useAdminDashboard();
+  const currentUserId = useMemo(() => localStorage.getItem('generatedUserId') || 'USER123', []);
+
+  const getIcon = (type: string) => {
+    switch (type) {
+      case 'deposit': return <ArrowUpRight className="w-4 h-4 text-emerald-400" />;
+      case 'withdrawal': return <ArrowDownRight className="w-4 h-4 text-rose-400" />;
+      case 'join': return <UserPlus className="w-4 h-4 text-blue-400" />;
+      case 'win': return <Trophy className="w-4 h-4 text-amber-400" />;
+      default: return <TrendingUp className="w-4 h-4 text-orange-400" />;
+    }
+  };
+
+  const getMessage = (activity: any, isPrivate: boolean) => {
+    const amountStr = isPrivate ? '$***' : `$${activity.amount}`;
+    
+    switch (activity.type) {
+      case 'deposit': 
+        return (
+          <span className="flex items-center gap-1">
+            deposited <span className="text-emerald-400 font-bold drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]">{amountStr}</span>
+          </span>
+        );
+      case 'withdrawal': 
+        return (
+          <span className="flex items-center gap-1">
+            withdrew <span className="text-rose-400 font-bold drop-shadow-[0_0_8px_rgba(251,113,133,0.4)]">{amountStr}</span>
+          </span>
+        );
+      case 'join': 
+        return (
+          <span>
+            joined <span className="text-blue-400 font-bold drop-shadow-[0_0_8px_rgba(96,165,250,0.4)]">{activity.matchName}</span>
+          </span>
+        );
+      case 'win': 
+        return (
+          <span>
+            won <span className="text-amber-400 font-bold drop-shadow-[0_0_8px_rgba(251,191,36,0.4)]">${activity.amount}</span> in <span className="text-amber-400/80 font-semibold">{activity.matchName}</span>
+          </span>
+        );
+      default: return 'performed an action';
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <style>{`
+        @keyframes slideInUpModern {
+          0% { opacity: 0; transform: translateY(30px) scale(0.95); filter: blur(10px); }
+          100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+        .activity-item {
+          animation: slideInUpModern 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+        }
+        .glow-avatar-win::after {
+          content: '';
+          position: absolute;
+          inset: -3px;
+          border-radius: 50%;
+          background: conic-gradient(from 0deg, transparent, #fbbf24, transparent);
+          animation: rotate 4s linear infinite;
+          z-index: -1;
+          opacity: 0.6;
+        }
+        .glow-avatar-deposit::after {
+          content: '';
+          position: absolute;
+          inset: -3px;
+          border-radius: 50%;
+          background: conic-gradient(from 0deg, transparent, #10b981, transparent);
+          animation: rotate 6s linear infinite;
+          z-index: -1;
+          opacity: 0.4;
+        }
+        .glow-avatar-withdrawal::after {
+          content: '';
+          position: absolute;
+          inset: -3px;
+          border-radius: 50%;
+          background: conic-gradient(from 0deg, transparent, #ef4444, transparent);
+          animation: rotate 8s linear infinite;
+          z-index: -1;
+          opacity: 0.4;
+        }
+        @keyframes rotate {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .live-dot {
+          box-shadow: 0 0 10px #10b981;
+        }
+        .shine-effect {
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(
+            to right,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent
+          );
+          transform: skewX(-25deg);
+          transition: 0.75s;
+        }
+        .activity-item:hover .shine-effect {
+          left: 150%;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.2);
+        }
+      `}</style>
+
+      <div className="custom-scrollbar" style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxHeight: '650px', overflowY: 'auto', paddingRight: '8px' }}>
+        {activities.length === 0 ? (
+          <div className="text-center py-24 rounded-[48px] border-2 border-dashed border-white/5 bg-white/[0.01] backdrop-blur-sm">
+            <div className="relative inline-block mb-6">
+              <TrendingUp className="w-20 h-20 text-white/5" />
+              <div className="absolute inset-0 bg-orange-500/5 blur-3xl rounded-full"></div>
+            </div>
+            <p className="text-white/30 font-bold italic tracking-wide text-lg">Awaiting community moves...</p>
+          </div>
+        ) : (
+          activities.map((activity, index) => {
+            const isFinancial = activity.type === 'deposit' || activity.type === 'withdrawal';
+            const isMine = activity.userId === currentUserId;
+            const isPrivate = isFinancial && !isMine;
+            
+            const displayUserName = isPrivate ? 'A Player' : activity.userName;
+            const displayAvatar = isPrivate 
+              ? `https://api.dicebear.com/7.x/avataaars/svg?seed=Anonymous&backgroundColor=b6e3f4`
+              : activity.userAvatar;
+
+            const glowClass = activity.type === 'win' ? 'glow-avatar-win' : 
+                             activity.type === 'deposit' ? 'glow-avatar-deposit' :
+                             activity.type === 'withdrawal' ? 'glow-avatar-withdrawal' : '';
+
+            const isHighValue = activity.amount && activity.amount >= 100;
+
+            return (
+              <div 
+                key={activity.id}
+                className="activity-item group relative flex items-center transition-all duration-500 overflow-hidden"
+                style={{ 
+                  gap: '16px', 
+                  padding: '20px', 
+                  borderRadius: '24px', 
+                  background: 'rgba(255,255,255,0.03)', 
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  animationDelay: `${index * 0.08}s` 
+                }}
+              >
+                <div className="shine-effect"></div>
+
+                {/* Left Accent Bar */}
+                <div className={`absolute left-0 top-1/4 bottom-1/4 w-1 rounded-r-full transition-all duration-500 group-hover:top-0 group-hover:bottom-0 ${
+                  activity.type === 'deposit' ? 'bg-emerald-500' :
+                  activity.type === 'withdrawal' ? 'bg-rose-500' :
+                  activity.type === 'win' ? 'bg-amber-500' :
+                  'bg-blue-500'
+                }`}></div>
+
+                <div className="relative z-10" style={{ flexShrink: 0 }}>
+                  <div className={`relative overflow-visible bg-black/40 ${glowClass}`} style={{ width: '60px', height: '60px', borderRadius: '50%', padding: '2px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <img 
+                      src={displayAvatar} 
+                      alt={displayUserName}
+                      style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover', position: 'relative', zIndex: 10 }}
+                    />
+                  </div>
+                </div>
+
+                <div className="z-10" style={{ flex: 1, minWidth: 0 }}>
+                  <div className="flex justify-between items-center" style={{ marginBottom: '6px' }}>
+                    <div className="flex items-center gap-2">
+                      <h4 className={`text-bold truncate transition-colors ${isMine ? 'text-orange-400' : 'text-white'}`} style={{ fontSize: '1rem', margin: 0 }}>
+                        {displayUserName}
+                      </h4>
+                      {isMine && (
+                        <span style={{ fontSize: '10px', background: 'var(--accent-orange)', color: 'black', padding: '2px 8px', borderRadius: '12px', textTransform: 'uppercase', fontWeight: 900, fontStyle: 'italic', letterSpacing: '-0.05em', boxShadow: '0 0 10px rgba(249,115,22,0.3)' }}>
+                          YOU
+                        </span>
+                      )}
+                      {isHighValue && (
+                        <span style={{ fontSize: '10px', background: 'rgba(251,191,36,0.2)', color: '#FBBF24', border: '1px solid rgba(251,191,36,0.3)', padding: '2px 8px', borderRadius: '12px', textTransform: 'uppercase', fontWeight: 900 }}>
+                          High Roller
+                        </span>
+                      )}
+                    </div>
+                    <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.2)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap', marginLeft: '12px' }}>
+                      {activity.timestamp}
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', fontWeight: 600, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {getMessage(activity, isPrivate)}
+                  </div>
+                </div>
+
+                {activity.status && (
+                  <div className={`shrink-0 text-[9px] px-3.5 py-2 rounded-2xl border-2 uppercase font-black tracking-widest z-10 transition-all duration-500 ${
+                    activity.status === 'approved' || activity.status === 'completed' 
+                      ? 'bg-emerald-500/5 text-emerald-400 border-emerald-500/20 group-hover:bg-emerald-500/20 group-hover:border-emerald-500/40'
+                      : activity.status === 'pending' || activity.status === 'processing'
+                      ? 'bg-orange-500/5 text-orange-400 border-orange-500/20 group-hover:bg-orange-500/20 group-hover:border-orange-500/40'
+                      : 'bg-rose-500/5 text-rose-400 border-rose-500/20 group-hover:bg-rose-500/20 group-hover:border-rose-500/40'
+                  }`}>
+                    {activity.status}
+                  </div>
+                )}
+                
+                <div className={`z-10 flex shrink-0 items-center justify-center p-3 rounded-2xl border border-white/10 shadow-2xl transition-transform duration-500 group-hover:scale-110 ${
+                    activity.type === 'deposit' ? 'bg-emerald-500/20 backdrop-blur-xl' :
+                    activity.type === 'withdrawal' ? 'bg-rose-500/20 backdrop-blur-xl' :
+                    activity.type === 'join' ? 'bg-blue-500/20 backdrop-blur-xl' :
+                    'bg-amber-500/20 backdrop-blur-xl'
+                }`}>
+                  {getIcon(activity.type)}
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default GlobalActivityFeed;
