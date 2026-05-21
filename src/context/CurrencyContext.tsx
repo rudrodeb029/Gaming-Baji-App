@@ -34,8 +34,10 @@ export const CurrencyProvider = ({ children }: { children: ReactNode }) => {
     if (typeof amount === 'string') {
       const cleanedString = amount.replace(/[^0-9.-]+/g, '');
       numericAmount = parseFloat(cleanedString) || 0;
-    } else {
+    } else if (typeof amount === 'number') {
       numericAmount = amount;
+    } else {
+      numericAmount = 0;
     }
 
     if (currency === 'BDT') {
