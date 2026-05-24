@@ -5,13 +5,19 @@ import { ArrowLeft, Users, Trophy, Target, Sword, Clock, MessageSquare } from 'l
 import { useCurrency } from '../context/CurrencyContext';
 import { AnimatedCounter } from '../components/AnimatedCounter';
 import { useChat } from '../context/ChatContext';
+import { useBalance } from '../context/BalanceContext';
+import SuccessModal from '../components/SuccessModal';
+import InsufficientBalanceModal from '../components/InsufficientBalanceModal';
+
 
 const MatchDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { adminMatches, adminUsers } = useAdminDashboard();
+  const { adminMatches, adminUsers, updateMatch, addParticipantToMatch } = useAdminDashboard();
+  const { balance, deductBalance } = useBalance();
   const { formatCurrency } = useCurrency();
   const { messages, sendMessage } = useChat();
+
 
   const [activeTab, setActiveTab] = useState<'statistics' | 'lineup' | 'h2h' | 'chat'>('statistics');
   const [inputMessage, setInputMessage] = useState('');
@@ -45,7 +51,34 @@ const MatchDetails = () => {
   const secondPrizeValue = match.secondPrize !== undefined && match.secondPrize > 0 ? match.secondPrize : totalPrizePool * 0.3;
   const thirdPrizeValue = match.thirdPrize !== undefined && match.thirdPrize > 0 ? match.thirdPrize : totalPrizePool * 0.2;
 
+  const [displayUserId] = useState(() => localStorage.getItem('generatedUserId') || 'USER123');
+  const [isBetModalOpen, setIsBetModalOpen] = useState(false);
+  const [selectedBetAmount, setSelectedBetAmount] = useState<number>(entryFee);
+  const [isInsufficientBalanceOpen, setIsInsufficientBalanceOpen] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [showJoinSuccess, setShowJoinSuccess] = useState(false);
+
+  useEffect(() => {
+    if (entryFee) {
+      setSelectedBetAmount(entryFee);
+    }
+  }, [entryFee]);
+
+  const handleJoinMatch = () => {
+    if (deductBalance(selectedBetAmount)) {
+      updateMatch(match.id, { 
+        currentParticipants: Math.min(match.maxParticipants, match.currentParticipants + 1),
+        totalBidsCount: `${Math.min(match.maxParticipants, match.currentParticipants + 1)} Players joined`
+      });
+      addParticipantToMatch(match.id, displayUserId);
+      setShowJoinSuccess(true);
+    } else {
+      setIsInsufficientBalanceOpen(true);
+    }
+  };
+
   return (
+
     <div style={{ minHeight: '100vh', paddingBottom: '100px', position: 'relative', color: 'var(--text-primary)' }}>
       {/* Header */}
       <div style={{ padding: '24px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -542,11 +575,18 @@ const MatchDetails = () => {
 
       {match.status !== 'finished' && activeTab !== 'chat' && (
         <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '24px', background: 'var(--modal-bg)', borderTop: '1px solid var(--glass-border)', zIndex: 10 }}>
-          <button className="btn btn-primary w-full py-4 rounded-2xl font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(249,111,46,0.3)]">
+          <button 
+            onClick={() => {
+              setShowJoinSuccess(false);
+              setIsBetModalOpen(true);
+            }}
+            className="btn btn-primary w-full py-4 rounded-2xl font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(249,111,46,0.3)]"
+          >
             PLACE A BET
           </button>
         </div>
       )}
+
 
       {match.status === 'finished' && match.winners && (
         <div style={{ padding: '24px', marginTop: '24px', background: 'rgba(249,111,46,0.1)', border: '1px solid rgba(249,111,46,0.2)', borderRadius: '24px', margin: '12px' }}>
@@ -570,8 +610,143 @@ const MatchDetails = () => {
         </div>
       )}
 
+      {/* Success Modal */}
+      <SuccessModal 
+        isOpen={isSuccessOpen}
+        onClose={() => setIsSuccessOpen(false)}
+        title="Match Joined!"
+        message={`You have successfully joined the ${match.group}. Good luck!`}
+      />
+
+      {/* Insufficient Balance Modal */}
+      <InsufficientBalanceModal 
+        isOpen={isInsufficientBalanceOpen}
+        onClose={() => setIsInsufficientBalanceOpen(false)}
+        requiredAmount={selectedBetAmount}
+        currentBalance={balance}
+      />
+
+      {/* Slide-Up Betting Modal */}
+      {isBetModalOpen && (
+        <div 
+          className="animate-fade-in"
+          style={{
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            background: 'rgba(0,0,0,0.8)',
+            backdropFilter: 'blur(12px)',
+            zIndex: 100,
+            display: 'flex',
+            alignItems: 'flex-end'
+          }}
+          onClick={() => { if(!showJoinSuccess) setIsBetModalOpen(false); }}
+        >
+          <div 
+            className="animate-slide-up"
+            style={{
+              background: 'var(--modal-bg)',
+              width: '100%',
+              borderTopLeftRadius: '40px',
+              borderTopRightRadius: '40px',
+              padding: '24px 16px',
+              color: 'var(--text-primary)',
+              border: '1px solid var(--glass-border)',
+              boxShadow: '0 -20px 40px rgba(0,0,0,0.5)',
+              minHeight: '400px'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ width: '40px', height: '5px', background: 'var(--glass-border)', borderRadius: '10px', margin: '0 auto 32px' }} />
+
+            {!showJoinSuccess ? (
+              <div className="animate-fade-in">
+                <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: 800, margin: '0 0 8px 0' }}>Confirm Entry</h3>
+                  <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.9rem' }}>{match.group} Arena</p>
+                </div>
+
+                <div style={{ marginBottom: '24px' }}>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: 600, marginBottom: '16px' }}>Entry Fee</p>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    {[100, 10, 5].map((amount) => (
+                      <button 
+                        key={amount}
+                        type="button"
+                        onClick={() => setSelectedBetAmount(amount)}
+                        style={{ 
+                          flex: 1, 
+                          padding: '20px', 
+                          borderRadius: '20px', 
+                          border: '2px solid',
+                          borderColor: selectedBetAmount === amount ? 'var(--accent-orange)' : 'var(--glass-border)', 
+                          background: selectedBetAmount === amount ? 'rgba(249, 111, 46, 0.1)' : 'var(--glass-bg)', 
+                          color: 'var(--text-primary)', 
+                          fontWeight: 800, 
+                          fontSize: '1.2rem', 
+                          cursor: 'pointer', 
+                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)' 
+                        }}
+                      >
+                        ${amount}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <button 
+                  className="btn btn-primary" 
+                  style={{ padding: '20px', borderRadius: '20px', fontSize: '1.1rem', letterSpacing: '0.05em' }}
+                  onClick={handleJoinMatch}
+                >
+                  Join Now
+                </button>
+                
+                <button 
+                  type="button"
+                  onClick={() => setIsBetModalOpen(false)}
+                  style={{ width: '100%', background: 'none', border: 'none', color: '#6B7280', marginTop: '20px', fontWeight: 600, cursor: 'pointer' }}
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <div className="animate-scale-up" style={{ textAlign: 'center', padding: '40px 0' }}>
+                <div style={{ 
+                  width: '100px', 
+                  height: '100px', 
+                  borderRadius: '50%', 
+                  background: 'rgba(16, 185, 129, 0.1)', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  margin: '0 auto 32px',
+                  border: '1px solid rgba(16, 185, 129, 0.2)',
+                  boxShadow: '0 0 30px rgba(16, 185, 129, 0.2)'
+                }}>
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="3">
+                    <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <h4 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '12px', color: 'var(--text-primary)' }}>Joined Successfully!</h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', fontWeight: 500 }}>
+                  You have successfully joined the match!
+                </p>
+                <button 
+                  className="btn btn-primary" 
+                  style={{ width: '80%', padding: '12px', borderRadius: '12px', marginTop: '24px', margin: '24px auto 0' }}
+                  onClick={() => setIsBetModalOpen(false)}
+                >
+                  Dismiss
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
 
 export default MatchDetails;
+

@@ -13,6 +13,8 @@ import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useAdminDashboard } from '../context/AdminDashboardContext';
 import SuccessModal from '../components/SuccessModal';
+import InsufficientBalanceModal from '../components/InsufficientBalanceModal';
+
 
 import { 
   Menu, 
@@ -62,6 +64,9 @@ const Home = () => {
 
   const { balance, deductBalance, addBalance } = useBalance();
   const [selectedBetAmount, setSelectedBetAmount] = useState<number>(10);
+  const [isInsufficientBalanceOpen, setIsInsufficientBalanceOpen] = useState(false);
+  const [insufficientRequiredAmount, setInsufficientRequiredAmount] = useState(0);
+
   const [isAddBalanceOpen, setIsAddBalanceOpen] = useState(false);
   const [depositAmount, setDepositAmount] = useState<string>('');
   const [showAddConfirm, setShowAddConfirm] = useState(false);
@@ -118,9 +123,11 @@ const Home = () => {
       setSelectedMatch(null);
       triggerSuccess("Match Joined!", `You have successfully joined the ${selectedMatch?.group}. Good luck!`);
     } else {
-      alert("Insufficient balance!");
+      setInsufficientRequiredAmount(selectedBetAmount);
+      setIsInsufficientBalanceOpen(true);
     }
   };
+
 
   const [displayUserId] = useState(() => localStorage.getItem('generatedUserId') || 'USER123');
 
@@ -289,6 +296,14 @@ const Home = () => {
         title={successConfig.title}
         message={successConfig.message}
       />
+
+      <InsufficientBalanceModal 
+        isOpen={isInsufficientBalanceOpen}
+        onClose={() => setIsInsufficientBalanceOpen(false)}
+        requiredAmount={insufficientRequiredAmount}
+        currentBalance={balance}
+      />
+
 
       {/* Modern Betting Modal */}
       {selectedMatch && (
