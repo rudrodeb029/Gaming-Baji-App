@@ -40,7 +40,12 @@ export interface Match {
   firstPrize?: number;
   secondPrize?: number;
   thirdPrize?: number;
+  perKillReward?: number;
+  map?: string;
+  version?: string;
+  category?: 'full_map' | 'lone_wolf' | 'cs_rank';
 }
+
 
 export const mockUsers: User[] = [
   { id: '1', name: 'Elite Moco', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Moco', username: '@mocotech', joinDate: '2025-01-15' },
@@ -56,13 +61,13 @@ export const mockUsers: User[] = [
 export const matches: Match[] = [
   {
     id: 'm1',
-    name: 'Bermuda Battle Royale',
-    group: 'Solo Match',
+    name: 'Bermuda Grand Royale',
+    group: 'Full Map Match',
     totalPlayersCount: '48 Players',
     status: 'live',
     score: '12 - 8',
     time: '14:20',
-    bids: ['$5', '$10', '$25', '$50'],
+    bids: ['$10', '$50', '$100'],
     totalBidsCount: '1.2K Players joined',
     currentParticipants: 32,
     maxParticipants: 48,
@@ -78,17 +83,22 @@ export const matches: Match[] = [
     timeline: [
       { time: '02:15', event: 'First Blood', team: 't1', player: 'Drago' },
       { time: '05:40', event: 'Double Kill', team: 't2', player: 'Zinx' },
-    ]
+    ],
+    category: 'full_map',
+    map: 'Bermuda',
+    version: 'Solo / TPP',
+    perKillReward: 5,
+    prizePool: 500
   },
   {
     id: 'm2',
     name: 'Purgatory Survival',
-    group: 'Duo Match',
+    group: 'Full Map Match',
     totalPlayersCount: '24 Teams',
     status: 'live',
     score: '5 - 3',
     time: '08:45',
-    bids: ['$10', '$50', '$100', '$200'],
+    bids: ['$20', '$100', '$200'],
     totalBidsCount: '800 Players joined',
     currentParticipants: 20,
     maxParticipants: 24,
@@ -103,17 +113,22 @@ export const matches: Match[] = [
     joinedUsers: [mockUsers[3], mockUsers[4]],
     timeline: [
       { time: '01:20', event: 'Grenade Kill', team: 't3', player: 'Iceman' },
-    ]
+    ],
+    category: 'full_map',
+    map: 'Purgatory',
+    version: 'Duo / TPP',
+    perKillReward: 10,
+    prizePool: 1000
   },
   {
     id: 'm3',
     name: 'Kalahari Clash Squad',
-    group: 'Squad Match',
+    group: 'CS Rank Match',
     totalPlayersCount: '12 Teams',
     status: 'upcoming',
     score: '0 - 0',
     time: '21:00',
-    bids: ['$20', '$100', '$250', '$500'],
+    bids: ['$25', '$100', '$250'],
     totalBidsCount: '0 Players joined',
     currentParticipants: 0,
     maxParticipants: 12,
@@ -126,17 +141,50 @@ export const matches: Match[] = [
       kills: 0, damage: 0, headshots: 0, rank: 0
     },
     joinedUsers: [mockUsers[0], mockUsers[4]],
-    timeline: []
+    timeline: [],
+    category: 'cs_rank',
+    map: 'Kalahari',
+    version: 'Squad / FPP',
+    perKillReward: 15,
+    prizePool: 1200
+  },
+  {
+    id: 'm5',
+    name: 'Nexterra tactical',
+    group: 'CS Rank Match',
+    totalPlayersCount: '8 Teams',
+    status: 'upcoming',
+    score: '0 - 0',
+    time: '22:15',
+    bids: ['$10', '$50', '$100'],
+    totalBidsCount: '10 Players joined',
+    currentParticipants: 4,
+    maxParticipants: 8,
+    team1: {
+      id: 't9', name: 'Ghost Squad', shortName: 'GHS', logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=ghost', color: '#0A0C14', percentage: '50%',
+      kills: 0, damage: 0, headshots: 0, rank: 0
+    },
+    team2: {
+      id: 't10', name: 'Void Walkers', shortName: 'VDW', logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=void', color: '#A855F7', percentage: '50%',
+      kills: 0, damage: 0, headshots: 0, rank: 0
+    },
+    joinedUsers: [mockUsers[1], mockUsers[3]],
+    timeline: [],
+    category: 'cs_rank',
+    map: 'Nexterra',
+    version: 'Squad / TPP',
+    perKillReward: 8,
+    prizePool: 600
   },
   {
     id: 'm4',
-    name: 'Alpine Duel',
-    group: 'Dot Match',
-    totalPlayersCount: '24 Teams',
+    name: 'Alpine 1v1 Duel',
+    group: 'Lone-wolf Match',
+    totalPlayersCount: '24 Players',
     status: 'upcoming',
     score: '0 - 0',
     time: '23:30',
-    bids: ['$5', '$15', '$30', '$60'],
+    bids: ['$5', '$15', '$30'],
     totalBidsCount: '120 Players joined',
     currentParticipants: 8,
     maxParticipants: 24,
@@ -149,9 +197,43 @@ export const matches: Match[] = [
       kills: 0, damage: 0, headshots: 0, rank: 0
     },
     joinedUsers: [mockUsers[1], mockUsers[2]],
-    timeline: []
+    timeline: [],
+    category: 'lone_wolf',
+    map: 'Alpine',
+    version: '1v1 / TPP',
+    perKillReward: 0,
+    prizePool: 200
+  },
+  {
+    id: 'm6',
+    name: 'Bermuda 1v1 Battle',
+    group: 'Lone-wolf Match',
+    totalPlayersCount: '16 Players',
+    status: 'upcoming',
+    score: '0 - 0',
+    time: '19:45',
+    bids: ['$10', '$30', '$50'],
+    totalBidsCount: '40 Players joined',
+    currentParticipants: 6,
+    maxParticipants: 16,
+    team1: {
+      id: 't11', name: 'Phoenix Fists', shortName: 'PHF', logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=phoenix', color: '#F96F2E', percentage: '60%',
+      kills: 0, damage: 0, headshots: 0, rank: 0
+    },
+    team2: {
+      id: 't12', name: 'Giga Chad', shortName: 'GGC', logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=giga', color: '#3B82F6', percentage: '40%',
+      kills: 0, damage: 0, headshots: 0, rank: 0
+    },
+    joinedUsers: [mockUsers[3], mockUsers[5]],
+    timeline: [],
+    category: 'lone_wolf',
+    map: 'Bermuda',
+    version: '1v1 / FPP',
+    perKillReward: 0,
+    prizePool: 300
   }
 ];
+
 
 export const currentUser: User = {
   id: 'me',

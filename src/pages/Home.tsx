@@ -27,8 +27,12 @@ import {
   Trash2,
   Edit2,
   PlusCircle,
-  X
+  X,
+  Target,
+  Shield,
+  Globe
 } from 'lucide-react';
+
 
 const Home = () => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -66,6 +70,8 @@ const Home = () => {
   const [selectedBetAmount, setSelectedBetAmount] = useState<number>(10);
   const [isInsufficientBalanceOpen, setIsInsufficientBalanceOpen] = useState(false);
   const [insufficientRequiredAmount, setInsufficientRequiredAmount] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState<'full_map' | 'lone_wolf' | 'cs_rank' | null>(null);
+
 
   const [isAddBalanceOpen, setIsAddBalanceOpen] = useState(false);
   const [depositAmount, setDepositAmount] = useState<string>('');
@@ -96,6 +102,28 @@ const Home = () => {
   const triggerSuccess = (title: string, message: string) => {
     setSuccessConfig({ isOpen: true, title, message });
   };
+
+  const getModeColor = (group: string) => {
+    const g = group.toLowerCase();
+    if (g.includes('solo')) return '#FBBF24';
+    if (g.includes('duo') || g.includes('dot') || g.includes('lone-wolf') || g.includes('lone_wolf')) return '#38BDF8';
+    return '#E879F9';
+  };
+
+  const handleCardMouseEnter = (e: React.MouseEvent<HTMLDivElement>, isFull: boolean, isLive: boolean, color: string) => {
+    if (!isFull) {
+      e.currentTarget.style.transform = 'translateY(-6px) scale(1.01)';
+      e.currentTarget.style.borderColor = isLive ? '#10B981' : color;
+      e.currentTarget.style.boxShadow = `0 20px 40px ${color}22`;
+    }
+  };
+
+  const handleCardMouseLeave = (e: React.MouseEvent<HTMLDivElement>, isFull: boolean, isLive: boolean, color: string) => {
+    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+    e.currentTarget.style.borderColor = isFull ? 'rgba(239, 68, 68, 0.2)' : isLive ? 'rgba(16, 185, 129, 0.3)' : 'var(--glass-border)';
+    e.currentTarget.style.boxShadow = isLive ? `0 0 30px ${color}15` : 'var(--card-shadow)';
+  };
+
 
   // Persistence effects
   useEffect(() => { localStorage.setItem('localParticipants', JSON.stringify(localParticipants)); }, [localParticipants]);
@@ -256,36 +284,339 @@ const Home = () => {
         onEdit={(stat) => setEditingStat(stat)}
       />
 
-      {/* Vertical Match Column */}
-      <div style={{ 
-        display: 'flex', 
-        flexDirection: 'column',
-        gap: '20px',
-        padding: '0 12px',
-        paddingBottom: '24px',
-      }}>
-        {localMatches.map((match, index) => (
-          <div 
-            key={match.id} 
-            className="animate-slide-up" 
-            style={{ animationDelay: `${index * 0.1}s`, opacity: 0, animationFillMode: 'forwards' }}
-          >
-            <SliderCard 
-              group={match.group}
-              players={match.totalPlayersCount}
-              team1={match.team1}
-              team2={match.team2}
-              {...match}
-              status={match.status}
-              name={match.name}
-              liveStartedAt={match.liveStartedAt}
-              onClick={() => setSelectedMatch(match)}
-              isAdminMode={isAdminMode}
-              onEdit={() => setEditingMatch(match)}
-            />
+      {/* Category Match Section */}
+      {selectedCategory === null ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '0 12px', paddingBottom: '24px' }}>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: 800, paddingLeft: '4px', letterSpacing: '-0.02em' }}>Select Game Category</h3>
+          {[
+            {
+              id: 'full_map',
+              title: 'Full Map Match',
+              subtitle: 'Classic 50-Player Survival',
+              desc: 'Fight for the ultimate Booyah in massive maps.',
+              color: '#F96F2E',
+              gradient: 'linear-gradient(135deg, rgba(249, 111, 46, 0.12) 0%, rgba(227, 67, 96, 0.04) 100%)',
+              borderColor: 'rgba(249, 111, 46, 0.2)',
+              shadowColor: 'rgba(249, 111, 46, 0.12)',
+              glowColor: 'rgba(249, 111, 46, 0.08)',
+              icon: <Globe className="w-9 h-9 text-orange-500" strokeWidth={2.5} />
+            },
+            {
+              id: 'lone_wolf',
+              title: 'Lone-wolf Match',
+              subtitle: '1v1 Intense Showdown',
+              desc: 'Show your individual raw skill in a duel to the death.',
+              color: '#3B82F6',
+              gradient: 'linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(147, 51, 234, 0.04) 100%)',
+              borderColor: 'rgba(59, 130, 246, 0.2)',
+              shadowColor: 'rgba(59, 130, 246, 0.12)',
+              glowColor: 'rgba(59, 130, 246, 0.08)',
+              icon: <Target className="w-9 h-9 text-blue-500" strokeWidth={2.5} />
+            },
+            {
+              id: 'cs_rank',
+              title: 'CS Rank Match',
+              subtitle: '4v4 Tactical Clash Squad',
+              desc: 'Team up for ranked squad rounds with quick buys.',
+              color: '#10B981',
+              gradient: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 182, 212, 0.04) 100%)',
+              borderColor: 'rgba(16, 185, 129, 0.2)',
+              shadowColor: 'rgba(16, 185, 129, 0.12)',
+              glowColor: 'rgba(16, 185, 129, 0.08)',
+              icon: <Shield className="w-9 h-9 text-emerald-500" strokeWidth={2.5} />
+            }
+          ].map((cat, idx) => {
+            const count = localMatches.filter(m => m.category === cat.id && m.status !== 'finished').length;
+            const isAnyLive = localMatches.some(m => m.category === cat.id && m.status === 'live');
+            return (
+              <div 
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id as any)}
+                className="animate-slide-up hover-scale"
+                style={{
+                  animationDelay: `${idx * 0.1}s`,
+                  opacity: 0,
+                  animationFillMode: 'forwards',
+                  cursor: 'pointer',
+                  background: cat.gradient,
+                  border: `1px solid ${cat.borderColor}`,
+                  borderRadius: '24px',
+                  padding: '20px',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  boxShadow: `0 10px 25px ${cat.shadowColor}`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                {/* Background Glow */}
+                <div style={{
+                  position: 'absolute',
+                  top: '-30%',
+                  right: '-10%',
+                  width: '150px',
+                  height: '150px',
+                  background: `radial-gradient(circle, ${cat.glowColor} 0%, transparent 70%)`,
+                  filter: 'blur(30px)',
+                  pointerEvents: 'none'
+                }} />
+
+                {/* Icon Column */}
+                <div style={{
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '16px',
+                  background: 'var(--glass-bg)',
+                  border: '1px solid var(--glass-border)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: 'inset 0 0 10px rgba(255,255,255,0.02)'
+                }}>
+                  {cat.icon}
+                </div>
+
+                {/* Info Column */}
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
+                    <h4 style={{ fontSize: '1.15rem', fontWeight: 900, color: 'var(--text-primary)' }}>{cat.title}</h4>
+                    {isAnyLive && (
+                      <span style={{ 
+                        background: '#EF4444', 
+                        color: 'white', 
+                        fontSize: '0.6rem', 
+                        fontWeight: 900, 
+                        padding: '1px 5px', 
+                        borderRadius: '5px', 
+                        letterSpacing: '0.05em',
+                        animation: 'pulse 1.5s infinite' 
+                      }}>LIVE</span>
+                    )}
+                  </div>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600, marginBottom: '4px' }}>{cat.subtitle}</p>
+                  <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', lineHeight: 1.3 }}>{cat.desc}</p>
+                </div>
+
+                {/* Right Badge Column */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '2px' }}>
+                  <span style={{ fontSize: '1.3rem', fontWeight: 900, color: cat.color }}>{count}</span>
+                  <span style={{ fontSize: '0.6rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>BATTLES</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        // Sub-category Match List (Two-Column Grid)
+        <div className="animate-fade-in" style={{ paddingBottom: '24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '0 12px 16px', borderBottom: '1px solid var(--glass-border)', marginBottom: '16px' }}>
+            <button 
+              onClick={() => setSelectedCategory(null)}
+              style={{ 
+                background: 'var(--glass-bg)', 
+                border: '1px solid var(--glass-border)', 
+                color: 'var(--text-primary)', 
+                cursor: 'pointer', 
+                padding: '8px 12px', 
+                borderRadius: '12px', 
+                fontSize: '0.8rem',
+                fontWeight: 800,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+              className="hover-scale"
+            >
+              ← Back
+            </button>
+            <div>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 900, margin: 0 }}>
+                {selectedCategory === 'full_map' ? 'Full Map' : selectedCategory === 'lone_wolf' ? 'Lone-wolf' : 'CS Rank'} <span style={{ color: 'var(--accent-orange)' }}>Matches</span>
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.7rem', margin: 0 }}>Select an active battle to join</p>
+            </div>
           </div>
-        ))}
-      </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '12px',
+            padding: '0 12px'
+          }}>
+            {localMatches.filter(m => m.category === selectedCategory).length === 0 ? (
+              <div style={{ gridColumn: 'span 2', textAlign: 'center', padding: '40px 20px', background: 'var(--glass-bg)', borderRadius: '24px', color: 'var(--text-muted)', border: '1px solid var(--glass-border)' }}>
+                No active matches found.
+              </div>
+            ) : (
+              localMatches.filter(m => m.category === selectedCategory).map((match, idx) => {
+                const entryFeeAmount = match.bids && match.bids.length > 0 ? parseFloat(match.bids[0].replace(/[^0-9.-]+/g, '')) || 10 : 10;
+                const progressPercent = (match.currentParticipants / (match.maxParticipants || 1)) * 100;
+                const isLive = match.status === 'live';
+                const color = getModeColor(match.group);
+                const isFull = match.currentParticipants >= match.maxParticipants;
+                
+                return (
+                  <div 
+                    key={match.id}
+                    onClick={() => {
+                      if (!isFull) {
+                        setSelectedBetAmount(entryFeeAmount);
+                        setSelectedMatch(match);
+                      }
+                    }}
+                    style={{
+                      animationDelay: `${idx * 0.05}s`,
+                      opacity: 0,
+                      animationFillMode: 'forwards',
+                      cursor: isFull ? 'not-allowed' : 'pointer',
+                      background: 'var(--glass-bg)',
+                      color: 'var(--text-primary)',
+                      border: `1px solid ${isFull ? 'rgba(239, 68, 68, 0.2)' : isLive ? 'rgba(16, 185, 129, 0.3)' : 'var(--glass-border)'}`,
+                      borderRadius: '24px',
+                      padding: '16px',
+                      position: 'relative',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '12px',
+                      boxShadow: isLive ? `0 0 30px ${color}15` : 'var(--card-shadow)',
+                      overflow: 'hidden',
+                      transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    }}
+                    onMouseEnter={(e) => handleCardMouseEnter(e, isFull, isLive, color)}
+                    onMouseLeave={(e) => handleCardMouseLeave(e, isFull, isLive, color)}
+                  >
+                    {/* Background Glow */}
+                    <div style={{ 
+                      position: 'absolute', 
+                      top: '-80px', 
+                      left: '-80px', 
+                      width: '200px', 
+                      height: '200px', 
+                      background: `radial-gradient(circle, ${color}08 0%, transparent 70%)`,
+                      filter: 'blur(30px)',
+                      pointerEvents: 'none'
+                    }} />
+
+                    {/* Header: Map & Status */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 1 }}>
+                      <span style={{ 
+                        fontSize: '0.65rem', 
+                        fontWeight: 800, 
+                        color: 'var(--accent-orange)', 
+                        background: 'rgba(249, 111, 46, 0.08)', 
+                        padding: '2px 6px', 
+                        borderRadius: '6px',
+                        textTransform: 'uppercase'
+                      }}>
+                        {match.map || 'Bermuda'}
+                      </span>
+                      
+                      <span style={{ 
+                        fontSize: '0.65rem', 
+                        fontWeight: 900, 
+                        color: isLive ? '#4ADE80' : '#60A5FA', 
+                        background: isLive ? 'rgba(74, 222, 128, 0.08)' : 'rgba(96, 165, 250, 0.08)',
+                        padding: '2px 6px', 
+                        borderRadius: '6px',
+                        textTransform: 'uppercase',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}>
+                        {isLive && <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#4ADE80', animation: 'pulse 1s infinite' }} />}
+                        {match.status}
+                      </span>
+                    </div>
+
+                    {/* Match Name */}
+                    <div style={{ flex: 1, zIndex: 1 }}>
+                      <h4 style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.2, marginBottom: '2px' }}>{match.name}</h4>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontWeight: 600 }}>{match.version || 'Solo / TPP'}</span>
+                    </div>
+
+                    {/* Grid Details */}
+                    <div style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 1fr',
+                      gap: '8px',
+                      zIndex: 1
+                    }}>
+                      <div style={{ background: 'var(--card-inner-bg)', border: '1px solid var(--glass-border)', padding: '6px', borderRadius: '10px', textAlign: 'center' }}>
+                        <span style={{ fontSize: '0.55rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', display: 'block', marginBottom: '2px' }}>Prize Pool</span>
+                        <span style={{ fontSize: '0.85rem', fontWeight: 900, color: 'var(--accent-orange)' }}>${match.prizePool || 100}</span>
+                      </div>
+                      <div style={{ background: 'var(--card-inner-bg)', border: '1px solid var(--glass-border)', padding: '6px', borderRadius: '10px', textAlign: 'center' }}>
+                        <span style={{ fontSize: '0.55rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', display: 'block', marginBottom: '2px' }}>Entry Fee</span>
+                        <span style={{ fontSize: '0.85rem', fontWeight: 900, color: '#4ADE80' }}>${entryFeeAmount}</span>
+                      </div>
+                      <div style={{ background: 'var(--card-inner-bg)', border: '1px solid var(--glass-border)', padding: '6px', borderRadius: '10px', textAlign: 'center' }}>
+                        <span style={{ fontSize: '0.55rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', display: 'block', marginBottom: '2px' }}>Per Kill</span>
+                        <span style={{ fontSize: '0.85rem', fontWeight: 900, color: 'var(--text-primary)' }}>${match.perKillReward || 0}</span>
+                      </div>
+                      <div style={{ background: 'var(--card-inner-bg)', border: '1px solid var(--glass-border)', padding: '6px', borderRadius: '10px', textAlign: 'center' }}>
+                        <span style={{ fontSize: '0.55rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', display: 'block', marginBottom: '2px' }}>Map</span>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 900, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block' }}>{match.map}</span>
+                      </div>
+                    </div>
+
+                    {/* Capacity Bar */}
+                    <div style={{ zIndex: 1 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: '0.7rem', fontWeight: 700 }}>
+                        <span style={{ color: 'var(--text-primary)' }}>Capacity</span>
+                        <span style={{ color: isFull ? '#EF4444' : 'var(--text-secondary)' }}>{match.currentParticipants}/{match.maxParticipants}</span>
+                      </div>
+                      <div style={{ height: '8px', background: 'var(--glass-bg)', borderRadius: '4px', overflow: 'hidden', border: '1px solid var(--glass-border)' }}>
+                        <div style={{ 
+                          width: `${progressPercent}%`, 
+                          height: '100%', 
+                          background: isFull ? '#EF4444' : 'var(--accent-gradient)',
+                          borderRadius: '4px',
+                          transition: 'width 1s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                        }} />
+                      </div>
+                    </div>
+
+                    {/* Bottom Row */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px', zIndex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <div style={{ display: 'flex' }}>
+                          {[1,2,3].map(i => (
+                            <div key={i} style={{ width: '20px', height: '20px', borderRadius: '50%', border: '1.5px solid var(--modal-bg)', background: 'var(--glass-bg)', marginLeft: i > 1 ? '-6px' : '0', overflow: 'hidden' }}>
+                              <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i+idx*5}`} alt="" style={{ width: '100%' }} />
+                            </div>
+                          ))}
+                        </div>
+                        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--text-secondary)' }}>+{match.currentParticipants} Joined</span>
+                      </div>
+
+                      <button 
+                        disabled={isFull}
+                        style={{ 
+                          padding: '6px 12px', 
+                          borderRadius: '10px', 
+                          background: isFull ? 'rgba(239, 68, 68, 0.1)' : 'var(--accent-gradient)', 
+                          border: 'none', 
+                          color: isFull ? '#EF4444' : 'white', 
+                          fontWeight: 800, 
+                          fontSize: '0.75rem',
+                          cursor: isFull ? 'not-allowed' : 'pointer',
+                          boxShadow: isFull ? 'none' : '0 4px 12px rgba(249, 111, 46, 0.2)'
+                        }}
+                      >
+                        {isFull ? 'FULL' : 'JOIN'}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+
+          </div>
+        </div>
+      )}
+
 
       <BottomNav />
       
