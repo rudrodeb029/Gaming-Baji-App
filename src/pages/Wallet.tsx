@@ -22,6 +22,8 @@ import {
   Globe
 } from 'lucide-react';
 import GlobalActivityFeed from '../components/GlobalActivityFeed';
+import SuccessModal from '../components/SuccessModal';
+
 
 const Wallet = () => {
   const { isDarkMode } = useTheme();
@@ -40,6 +42,12 @@ const Wallet = () => {
   const [withdrawAmount, setWithdrawAmount] = useState<string>('');
   const [deleteConfirmation, setDeleteConfirmation] = useState<{ id: string, type: 'gateway' | 'method' } | null>(null);
   const [historyTab, setHistoryTab] = useState<'personal' | 'community'>('personal');
+  const [successConfig, setSuccessConfig] = useState<{ isOpen: boolean, title: string, message: string }>({
+    isOpen: false,
+    title: '',
+    message: ''
+  });
+
   
   // Dynamic Gateways State
   const [localGateways, setLocalGateways] = useState(() => {
@@ -237,9 +245,14 @@ const Wallet = () => {
       setWithdrawAmount('');
       setSelectedWithdrawMethod(null);
       setIsWithdrawConfirming(false);
-      alert('Withdrawal request submitted! It will be processed after admin approval.');
+      setSuccessConfig({
+        isOpen: true,
+        title: "Withdrawal Requested!",
+        message: "Your withdrawal request has been submitted. It will be processed after admin approval."
+      });
     }
   };
+
 
   const handleDeposit = () => {
     const amount = parseFloat(depositAmount);
@@ -257,9 +270,14 @@ const Wallet = () => {
       setDepositAmount('');
       setSelectedGateway(null);
       setIsConfirming(false);
-      alert('Deposit request submitted! Balance will update after admin approval.');
+      setSuccessConfig({
+        isOpen: true,
+        title: "Deposit Requested!",
+        message: "Deposit request submitted! Balance will update after admin approval."
+      });
     }
   };
+
 
 
 
@@ -1304,10 +1322,18 @@ const Wallet = () => {
         </div>
       )}
 
+      <SuccessModal 
+        isOpen={successConfig.isOpen}
+        onClose={() => setSuccessConfig(prev => ({ ...prev, isOpen: false }))}
+        title={successConfig.title}
+        message={successConfig.message}
+      />
+
       <BottomNav />
     </div>
   );
 };
+
 
 export default Wallet;
 
