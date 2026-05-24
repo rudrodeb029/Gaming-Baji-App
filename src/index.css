@@ -19,12 +19,40 @@
   --card-shadow: 0 8px 32px rgba(0,0,0,0.5);
   --nav-shadow: 0 -10px 40px rgba(0,0,0,0.3);
   --modal-bg: #121421;
+
+  /* Theme-aware Semantic Colors (Dark Mode) */
+  --color-success: #34D399;
+  --color-success-bg-5: rgba(52, 211, 153, 0.05);
+  --color-success-bg-20: rgba(52, 211, 153, 0.2);
+  --color-success-border: rgba(52, 211, 153, 0.2);
+
+  --color-danger: #FB7185;
+  --color-danger-bg-5: rgba(251, 113, 133, 0.05);
+  --color-danger-bg-20: rgba(251, 113, 133, 0.2);
+  --color-danger-border: rgba(251, 113, 133, 0.2);
+
+  --color-info: #60A5FA;
+  --color-info-bg-20: rgba(96, 165, 250, 0.2);
+  --color-info-border: rgba(96, 165, 250, 0.2);
+
+  --color-warning: #FBBF24;
+  --color-warning-dark: #D97706;
+  --color-warning-bg-20: rgba(251, 191, 36, 0.2);
+  --color-warning-border: rgba(251, 191, 36, 0.2);
+
+  --color-primary-accent: #F96F2E;
+  --color-primary-accent-dark: #EA580C;
+  --color-primary-accent-bg-5: rgba(249, 111, 46, 0.05);
+  --color-primary-accent-bg-20: rgba(249, 111, 46, 0.2);
+  --color-primary-accent-border: rgba(249, 111, 46, 0.2);
+
+  --card-inner-bg: rgba(255, 255, 255, 0.03);
 }
 
 .light-mode {
   --bg-dark: #F1F5F9;
-  --bg-gradient: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 100%);
-  --bg-gradient-vibrant: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+  --bg-gradient: #F1F5F9;
+  --bg-gradient-vibrant: #F1F5F9;
   
   --text-primary: #0F172A;
   --text-secondary: #475569;
@@ -36,6 +64,34 @@
   --card-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.12), 0 4px 6px -2px rgba(15, 23, 42, 0.08);
   --nav-shadow: 0 -12px 30px -10px rgba(15, 23, 42, 0.15);
   --modal-bg: #FFFFFF;
+
+  /* Theme-aware Semantic Colors (Light Mode) */
+  --color-success: #059669;
+  --color-success-bg-5: rgba(5, 150, 105, 0.08);
+  --color-success-bg-20: rgba(5, 150, 105, 0.15);
+  --color-success-border: rgba(5, 150, 105, 0.25);
+
+  --color-danger: #D01C42;
+  --color-danger-bg-5: rgba(208, 28, 66, 0.08);
+  --color-danger-bg-20: rgba(208, 28, 66, 0.15);
+  --color-danger-border: rgba(208, 28, 66, 0.25);
+
+  --color-info: #1D4ED8;
+  --color-info-bg-20: rgba(29, 78, 216, 0.15);
+  --color-info-border: rgba(29, 78, 216, 0.25);
+
+  --color-warning: #B45309;
+  --color-warning-dark: #78350F;
+  --color-warning-bg-20: rgba(180, 83, 9, 0.15);
+  --color-warning-border: rgba(180, 83, 9, 0.25);
+
+  --color-primary-accent: #EA580C;
+  --color-primary-accent-dark: #C2410C;
+  --color-primary-accent-bg-5: rgba(234, 88, 12, 0.08);
+  --color-primary-accent-bg-20: rgba(234, 88, 12, 0.15);
+  --color-primary-accent-border: rgba(234, 88, 12, 0.25);
+
+  --card-inner-bg: rgba(15, 23, 42, 0.05);
 }
 
 
@@ -131,11 +187,11 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 24px;
-  border-radius: 14px;
+  padding: 12px 20px;
+  border-radius: 12px;
   font-family: inherit;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   cursor: pointer;
   border: none;
   transition: transform 0.2s ease, opacity 0.2s ease;
@@ -182,6 +238,17 @@ body {
 .animate-scale-up {
   animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+@keyframes floatUpDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.float-stagger-0 { animation: floatUpDown 4s ease-in-out infinite; }
+.float-stagger-1 { animation: floatUpDown 4s ease-in-out infinite; animation-delay: 0.4s; }
+.float-stagger-2 { animation: floatUpDown 4s ease-in-out infinite; animation-delay: 0.8s; }
+.float-stagger-3 { animation: floatUpDown 4s ease-in-out infinite; animation-delay: 1.2s; }
+.float-stagger-4 { animation: floatUpDown 4s ease-in-out infinite; animation-delay: 1.6s; }
+
 
 @keyframes scroll {
   from { transform: translateX(0); }
@@ -269,3 +336,89 @@ body {
   50% { opacity: 0.6; }
   100% { opacity: 0.3; }
 }
+
+/* Typing Indicator Animation */
+.typing-dot {
+  animation: typing-bounce 1.4s infinite ease-in-out both;
+}
+.typing-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+.typing-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typing-bounce {
+  0%, 80%, 100% { 
+    transform: scale(0.6);
+    opacity: 0.4;
+  } 
+  40% { 
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* Message Entry Animation */
+@keyframes messageIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-message-in {
+  animation: messageIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Premium Hover/Active Micro-animations */
+.hover-scale {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, opacity 0.2s ease;
+}
+.hover-scale:hover {
+  transform: scale(1.06);
+}
+.hover-scale:active {
+  transform: scale(0.94);
+}
+
+/* Color & Background Mapped Tailwind Classes */
+.text-emerald-400 { color: var(--color-success); }
+.text-rose-400 { color: var(--color-danger); }
+.text-blue-400 { color: var(--color-info); }
+.text-amber-400 { color: var(--color-warning); }
+.text-orange-400 { color: var(--color-primary-accent); }
+.text-orange-500 { color: var(--color-primary-accent-dark); }
+.text-yellow-400 { color: var(--color-warning); }
+.text-yellow-500 { color: var(--color-warning-dark); }
+.text-white { color: var(--text-primary); }
+
+.bg-emerald-500\/5 { background-color: var(--color-success-bg-5); }
+.bg-emerald-500\/20 { background-color: var(--color-success-bg-20); }
+.bg-emerald-500 { background-color: var(--color-success); }
+
+.bg-rose-500\/5 { background-color: var(--color-danger-bg-5); }
+.bg-rose-500\/20 { background-color: var(--color-danger-bg-20); }
+.bg-rose-500 { background-color: var(--color-danger); }
+
+.bg-orange-500\/5 { background-color: var(--color-primary-accent-bg-5); }
+.bg-orange-500\/20 { background-color: var(--color-primary-accent-bg-20); }
+.bg-orange-500 { background-color: var(--color-primary-accent); }
+
+.bg-blue-500\/20 { background-color: var(--color-info-bg-20); }
+.bg-blue-500 { background-color: var(--color-info); }
+
+.bg-amber-500\/20 { background-color: var(--color-warning-bg-20); }
+.bg-amber-500 { background-color: var(--color-warning); }
+
+.border-emerald-500\/20 { border-color: var(--color-success-border); }
+.border-rose-500\/20 { border-color: var(--color-danger-border); }
+.border-orange-500\/20 { border-color: var(--color-primary-accent-border); }
+.border-blue-500\/20 { border-color: var(--color-info-border); }
+.border-amber-500\/20 { border-color: var(--color-warning-border); }
+
+
+

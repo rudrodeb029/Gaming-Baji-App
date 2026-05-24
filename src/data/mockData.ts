@@ -36,6 +36,10 @@ export interface Match {
   maxParticipants: number;
   name: string;
   timeline: { time: string; event: string; team: string; player?: string }[];
+  prizePool?: number;
+  firstPrize?: number;
+  secondPrize?: number;
+  thirdPrize?: number;
 }
 
 export const mockUsers: User[] = [

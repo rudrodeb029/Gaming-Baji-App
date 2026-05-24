@@ -4,6 +4,8 @@ import { currentUser } from '../data/mockData';
 import { useBalance } from '../context/BalanceContext';
 import { useAdmin } from '../context/AdminContext';
 import { useCurrency } from '../context/CurrencyContext';
+import { useChat } from '../context/ChatContext';
+
 
 interface SideMenuProps {
   isOpen: boolean;
@@ -15,6 +17,7 @@ const SideMenu = ({ isOpen, onClose }: SideMenuProps) => {
   const { balance } = useBalance();
   const { isAdminMode, toggleAdminMode } = useAdmin();
   const { formatCurrency } = useCurrency();
+  const { setIsChatOpen } = useChat();
   
   if (!isOpen) return null;
 
@@ -53,15 +56,15 @@ const SideMenu = ({ isOpen, onClose }: SideMenuProps) => {
             cursor: 'pointer',
             padding: '12px',
             borderRadius: '20px',
-            background: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(255,255,255,0.05)'
+            background: 'var(--glass-bg)',
+            border: '1px solid var(--glass-border)'
           }}
         >
           <div style={{ width: '52px', height: '52px', borderRadius: '18px', overflow: 'hidden', border: '2px solid var(--accent-orange)', boxShadow: '0 0 15px rgba(249, 111, 46, 0.2)' }}>
             <img src={currentUser.avatar} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <div>
-            <div style={{ fontWeight: 800, fontSize: '1.1rem', color: 'white', letterSpacing: '-0.02em' }}>{currentUser.name}</div>
+            <div style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>{currentUser.name}</div>
             <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>{currentUser.username}</div>
           </div>
         </div>
@@ -87,7 +90,7 @@ const SideMenu = ({ isOpen, onClose }: SideMenuProps) => {
             My Bets
           </button>
 
-          <button onClick={() => { onClose(); }} style={{ textAlign: 'left', background: 'none', border: 'none', color: 'var(--text-primary)', fontSize: '1.05rem', fontWeight: 600, padding: '14px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '16px', borderRadius: '16px', transition: 'background 0.2s' }} className="menu-item-hover">
+          <button onClick={() => { navigate('/support'); onClose(); }} style={{ textAlign: 'left', background: 'none', border: 'none', color: 'var(--text-primary)', fontSize: '1.05rem', fontWeight: 600, padding: '14px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '16px', borderRadius: '16px', transition: 'background 0.2s' }} className="menu-item-hover">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
             Support
           </button>

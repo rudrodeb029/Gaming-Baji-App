@@ -25,25 +25,25 @@ const GlobalActivityFeed: React.FC = () => {
       case 'deposit': 
         return (
           <span className="flex items-center gap-1">
-            deposited <span className="text-emerald-400 font-bold drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]">{amountStr}</span>
+            deposited <span className="text-emerald-400 font-bold" style={{ textShadow: '0 0 8px var(--color-success-bg-20)' }}>{amountStr}</span>
           </span>
         );
       case 'withdrawal': 
         return (
           <span className="flex items-center gap-1">
-            withdrew <span className="text-rose-400 font-bold drop-shadow-[0_0_8px_rgba(251,113,133,0.4)]">{amountStr}</span>
+            withdrew <span className="text-rose-400 font-bold" style={{ textShadow: '0 0 8px var(--color-danger-bg-20)' }}>{amountStr}</span>
           </span>
         );
       case 'join': 
         return (
           <span>
-            joined <span className="text-blue-400 font-bold drop-shadow-[0_0_8px_rgba(96,165,250,0.4)]">{activity.matchName}</span>
+            joined <span className="text-blue-400 font-bold" style={{ textShadow: '0 0 8px var(--color-info-bg-20)' }}>{activity.matchName}</span>
           </span>
         );
       case 'win': 
         return (
           <span>
-            won <span className="text-amber-400 font-bold drop-shadow-[0_0_8px_rgba(251,191,36,0.4)]">{formatCurrency(activity.amount)}</span> in <span className="text-amber-400/80 font-semibold">{activity.matchName}</span>
+            won <span className="text-amber-400 font-bold" style={{ textShadow: '0 0 8px var(--color-warning-bg-20)' }}>{formatCurrency(activity.amount)}</span> in <span className="text-amber-400 font-semibold">{activity.matchName}</span>
           </span>
         );
       default: return 'performed an action';
@@ -102,14 +102,14 @@ const GlobalActivityFeed: React.FC = () => {
                   gap: '16px', 
                   padding: '20px', 
                   borderRadius: '24px', 
-                  background: 'rgba(255,255,255,0.03)', 
-                  border: '1px solid rgba(255,255,255,0.1)'
+                  background: 'var(--glass-bg)', 
+                  border: '1px solid var(--glass-border)'
                 }}
               >
 
 
                 <div className="relative z-10" style={{ flexShrink: 0 }}>
-                  <div className={`relative overflow-visible bg-black/40`} style={{ width: '48px', height: '48px', borderRadius: '50%', padding: '2px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <div className={`relative overflow-visible bg-black/40`} style={{ width: '48px', height: '48px', borderRadius: '50%', padding: '2px', border: '1px solid var(--glass-border)' }}>
                     <img 
                       src={displayAvatar} 
                       alt={displayUserName}
@@ -136,9 +136,9 @@ const GlobalActivityFeed: React.FC = () => {
                       )}
                     </div>
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', fontWeight: 600, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
                     <span>{getMessage(activity, isPrivate)}</span>
-                    <span style={{ fontSize: '8px', color: 'rgba(255,255,255,0.3)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <span style={{ fontSize: '8px', color: 'var(--text-muted)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                       • {activity.timestamp}
                     </span>
                   </div>

@@ -131,11 +131,11 @@ const AdminLogin = () => {
             type="submit"
             disabled={loading || !password}
             style={{
-              width: '100%', padding: '20px',
+              width: '100%', padding: '14px',
               background: loading || !password ? 'rgba(255,255,255,0.05)' : 'linear-gradient(90deg, #F96F2E, #E34360)',
               color: loading || !password ? '#6B7280' : '#FFFFFF',
               border: loading || !password ? '1px solid rgba(255,255,255,0.1)' : 'none',
-              borderRadius: '16px', fontSize: '1.1rem', fontWeight: 800,
+              borderRadius: '12px', fontSize: '0.95rem', fontWeight: 800,
               cursor: loading || !password ? 'not-allowed' : 'pointer',
               fontFamily: "'Outfit', sans-serif",
               letterSpacing: '0.08em', textTransform: 'uppercase',

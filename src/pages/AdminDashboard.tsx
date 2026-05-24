@@ -31,7 +31,7 @@ const AdminDashboard = () => {
   }, []);
 
   const [showCreateMatch, setShowCreateMatch] = useState(false);
-  const [newMatch, setNewMatch] = useState({ name: '', group: 'Squad Match', maxParticipants: 12, time: '21:00', bids: ['$5','$10','$25','$50'] });
+  const [newMatch, setNewMatch] = useState({ name: '', group: 'Squad Match', maxParticipants: 12, time: '21:00', bids: ['$5','$10','$25','$50'], prizePool: '', firstPrize: '', secondPrize: '', thirdPrize: '' });
   const [editBalanceUser, setEditBalanceUser] = useState<string | null>(null);
   const [newBalance, setNewBalance] = useState('');
   const [rejectNote, setRejectNote] = useState('');
@@ -74,10 +74,14 @@ const AdminDashboard = () => {
       countdownMinutes: 0,
       team1: { id: 'nt1', name: 'Team Alpha', shortName: 'ALP', logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=alpha', color: '#F59E0B', percentage: '50%', kills: 0, damage: 0, headshots: 0, rank: 0 },
       team2: { id: 'nt2', name: 'Team Omega', shortName: 'OMG', logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=omega', color: '#3B82F6', percentage: '50%', kills: 0, damage: 0, headshots: 0, rank: 0 },
+      prizePool: newMatch.prizePool ? parseFloat(newMatch.prizePool) : undefined,
+      firstPrize: newMatch.firstPrize ? parseFloat(newMatch.firstPrize) : undefined,
+      secondPrize: newMatch.secondPrize ? parseFloat(newMatch.secondPrize) : undefined,
+      thirdPrize: newMatch.thirdPrize ? parseFloat(newMatch.thirdPrize) : undefined,
     };
     createMatch(m);
     setShowCreateMatch(false);
-    setNewMatch({ name: '', group: 'Squad Match', maxParticipants: 12, time: '21:00', bids: ['$5','$10','$25','$50'] });
+    setNewMatch({ name: '', group: 'Squad Match', maxParticipants: 12, time: '21:00', bids: ['$5','$10','$25','$50'], prizePool: '', firstPrize: '', secondPrize: '', thirdPrize: '' });
   };
 
   const statusColor = (s: string) => {
@@ -101,8 +105,8 @@ const AdminDashboard = () => {
 
   const Btn = ({ children, onClick, variant = 'primary', small = false, disabled = false }: any) => (
     <button onClick={onClick} disabled={disabled} style={{
-      padding: small ? '6px 14px' : '12px 24px', borderRadius: '12px', border: 'none', fontFamily: "'Outfit',sans-serif",
-      fontWeight: 700, fontSize: small ? '0.75rem' : '0.9rem', cursor: disabled ? 'not-allowed' : 'pointer',
+      padding: small ? '5px 10px' : '9px 16px', borderRadius: '10px', border: 'none', fontFamily: "'Outfit',sans-serif",
+      fontWeight: 700, fontSize: small ? '0.7rem' : '0.85rem', cursor: disabled ? 'not-allowed' : 'pointer',
       background: variant === 'primary' ? 'linear-gradient(90deg,#F96F2E,#E34360)' : variant === 'danger' ? '#EF4444' : variant === 'success' ? '#10B981' : 'rgba(255,255,255,0.08)',
       color: '#fff', opacity: disabled ? 0.5 : 1, transition: 'all 0.2s',
     }}>{children}</button>
@@ -219,7 +223,7 @@ const AdminDashboard = () => {
           ))}
         </div>
 
-        <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px 16px', borderRadius: '14px', background: 'rgba(239,68,68,0.1)', border: 'none', color: '#EF4444', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', fontFamily: "'Outfit',sans-serif" }}>
+        <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 14px', borderRadius: '10px', background: 'rgba(239,68,68,0.1)', border: 'none', color: '#EF4444', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', fontFamily: "'Outfit',sans-serif" }}>
           🚪 Logout
         </button>
       </div>
@@ -307,6 +311,30 @@ const AdminDashboard = () => {
                   <div>
                     <label style={{ color: '#9CA3AF', fontSize: '0.8rem', fontWeight: 700, display: 'block', marginBottom: '6px' }}>Start Time</label>
                     <input value={newMatch.time} onChange={e => setNewMatch({ ...newMatch, time: e.target.value })} placeholder="21:00" style={{ width: '100%', padding: '14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', fontFamily: "'Outfit',sans-serif", fontSize: '0.95rem', outline: 'none', boxSizing: 'border-box' }} />
+                  </div>
+                  <div style={{ 
+                    display: 'grid', 
+                    gridTemplateColumns: 'repeat(4, 1fr)', 
+                    gap: '12px', 
+                    gridColumn: '1 / -1',
+                    marginTop: '8px'
+                  }}>
+                    <div>
+                      <label style={{ color: '#9CA3AF', fontSize: '0.8rem', fontWeight: 700, display: 'block', marginBottom: '6px' }}>Prize Pool</label>
+                      <input type="number" value={newMatch.prizePool} onChange={e => setNewMatch({ ...newMatch, prizePool: e.target.value })} placeholder="Auto" style={{ width: '100%', padding: '14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', fontFamily: "'Outfit',sans-serif", fontSize: '0.95rem', outline: 'none', boxSizing: 'border-box' }} />
+                    </div>
+                    <div>
+                      <label style={{ color: '#9CA3AF', fontSize: '0.8rem', fontWeight: 700, display: 'block', marginBottom: '6px' }}>🥇 1st Prize</label>
+                      <input type="number" value={newMatch.firstPrize} onChange={e => setNewMatch({ ...newMatch, firstPrize: e.target.value })} placeholder="Auto" style={{ width: '100%', padding: '14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', fontFamily: "'Outfit',sans-serif", fontSize: '0.95rem', outline: 'none', boxSizing: 'border-box' }} />
+                    </div>
+                    <div>
+                      <label style={{ color: '#9CA3AF', fontSize: '0.8rem', fontWeight: 700, display: 'block', marginBottom: '6px' }}>🥈 2nd Prize</label>
+                      <input type="number" value={newMatch.secondPrize} onChange={e => setNewMatch({ ...newMatch, secondPrize: e.target.value })} placeholder="Auto" style={{ width: '100%', padding: '14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', fontFamily: "'Outfit',sans-serif", fontSize: '0.95rem', outline: 'none', boxSizing: 'border-box' }} />
+                    </div>
+                    <div>
+                      <label style={{ color: '#9CA3AF', fontSize: '0.8rem', fontWeight: 700, display: 'block', marginBottom: '6px' }}>🥉 3rd Prize</label>
+                      <input type="number" value={newMatch.thirdPrize} onChange={e => setNewMatch({ ...newMatch, thirdPrize: e.target.value })} placeholder="Auto" style={{ width: '100%', padding: '14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', fontFamily: "'Outfit',sans-serif", fontSize: '0.95rem', outline: 'none', boxSizing: 'border-box' }} />
+                    </div>
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>

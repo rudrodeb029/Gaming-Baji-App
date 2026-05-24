@@ -620,16 +620,16 @@ const Profile = () => {
                 onClick={handleSaveProfile}
                 style={{ 
                   width: '100%', 
-                  padding: '22px', 
-                  borderRadius: '24px', 
+                  padding: '15px 20px', 
+                  borderRadius: '14px', 
                   background: 'var(--accent-gradient)', 
                   border: 'none', 
                   color: '#FFFFFF', 
-                  fontWeight: 900, 
-                  fontSize: '1.1rem', 
+                  fontWeight: 800, 
+                  fontSize: '1rem', 
                   marginTop: '8px', 
                   cursor: 'pointer', 
-                  boxShadow: '0 12px 35px rgba(249, 111, 46, 0.4)', 
+                  boxShadow: '0 8px 24px rgba(249, 111, 46, 0.4)', 
                   transition: 'transform 0.2s',
                   letterSpacing: '1px'
                 }}
@@ -772,8 +772,8 @@ const Profile = () => {
                   </div>
 
                   <div style={{ display: 'flex', gap: '12px' }}>
-                    <button onClick={handleAddMethod} style={{ flex: 2, padding: '16px', borderRadius: '16px', background: 'var(--accent-gradient)', border: 'none', color: '#FFFFFF', fontWeight: 900, fontSize: '1rem', cursor: 'pointer' }}>Link Account</button>
-                    <button onClick={() => setShowAddMethod(false)} style={{ flex: 1, padding: '16px', borderRadius: '16px', background: 'none', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', fontWeight: 700, fontSize: '1rem', cursor: 'pointer' }}>Cancel</button>
+                    <button onClick={handleAddMethod} style={{ flex: 2, padding: '15px 20px', borderRadius: '14px', background: 'var(--accent-gradient)', border: 'none', color: '#FFFFFF', fontWeight: 800, fontSize: '1rem', cursor: 'pointer' }}>Link Account</button>
+                    <button onClick={() => setShowAddMethod(false)} style={{ flex: 1, padding: '12px 18px', borderRadius: '12px', background: 'none', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}>Cancel</button>
                   </div>
 
                 </div>
@@ -782,7 +782,7 @@ const Profile = () => {
 
             <button 
               onClick={() => setShowPayments(false)}
-              style={{ width: '100%', padding: '22px', borderRadius: '26px', background: 'var(--accent-gradient)', border: 'none', color: '#FFFFFF', fontWeight: 900, fontSize: '1.2rem', marginTop: '40px', cursor: 'pointer', boxShadow: '0 12px 35px rgba(249, 111, 46, 0.4)' }}
+              style={{ width: '100%', padding: '15px 20px', borderRadius: '14px', background: 'var(--accent-gradient)', border: 'none', color: '#FFFFFF', fontWeight: 800, fontSize: '1rem', marginTop: '40px', cursor: 'pointer', boxShadow: '0 8px 24px rgba(249, 111, 46, 0.4)' }}
             >
               {t('confirmSelection')}
             </button>
@@ -869,16 +869,16 @@ const Profile = () => {
               onClick={() => setShowNotifications(false)} 
               style={{ 
                 width: '100%', 
-                padding: '22px', 
-                borderRadius: '26px', 
+                padding: '15px 20px', 
+                borderRadius: '14px', 
                 background: 'var(--accent-gradient)', 
                 border: 'none', 
                 color: '#FFFFFF', 
-                fontWeight: 900, 
-                fontSize: '1.2rem', 
+                fontWeight: 800, 
+                fontSize: '1rem', 
                 marginTop: '32px', 
                 cursor: 'pointer',
-                boxShadow: '0 12px 35px rgba(249, 111, 46, 0.4)',
+                boxShadow: '0 8px 24px rgba(249, 111, 46, 0.4)',
                 letterSpacing: '1px'
               }}
             >
@@ -972,16 +972,16 @@ const Profile = () => {
               onClick={() => setShowLanguage(false)} 
               style={{ 
                 width: '100%', 
-                padding: '22px', 
-                borderRadius: '26px', 
+                padding: '15px 20px', 
+                borderRadius: '14px', 
                 background: 'var(--accent-gradient)', 
                 border: 'none', 
                 color: '#FFFFFF', 
-                fontWeight: 900, 
-                fontSize: '1.2rem', 
+                fontWeight: 800, 
+                fontSize: '1rem', 
                 marginTop: '32px', 
                 cursor: 'pointer',
-                boxShadow: '0 12px 35px rgba(249, 111, 46, 0.4)',
+                boxShadow: '0 8px 24px rgba(249, 111, 46, 0.4)',
                 letterSpacing: '1px'
               }}
             >
@@ -1077,13 +1077,13 @@ const Profile = () => {
               onClick={() => setShowHelp(false)} 
               style={{ 
                 width: '100%', 
-                padding: '22px', 
-                borderRadius: '26px', 
+                padding: '12px 18px', 
+                borderRadius: '12px', 
                 border: '1px solid var(--glass-border)', 
                 background: 'var(--glass-bg)', 
                 color: 'var(--text-primary)', 
-                fontWeight: 900, 
-                fontSize: '1.1rem', 
+                fontWeight: 800, 
+                fontSize: '0.9rem', 
                 marginTop: '40px', 
                 cursor: 'pointer',
                 letterSpacing: '1px'
@@ -1157,15 +1157,15 @@ const Profile = () => {
                 onClick={confirmDelete}
                 style={{ 
                   width: '100%', 
-                  padding: '20px', 
-                  borderRadius: '24px', 
+                  padding: '15px 20px', 
+                  borderRadius: '14px', 
                   background: '#EF4444', 
                   border: 'none', 
                   color: '#FFFFFF', 
-                  fontWeight: 900, 
-                  fontSize: '1.15rem', 
+                  fontWeight: 800, 
+                  fontSize: '1rem', 
                   cursor: 'pointer',
-                  boxShadow: '0 12px 30px rgba(239, 68, 68, 0.4)'
+                  boxShadow: '0 8px 20px rgba(239, 68, 68, 0.4)'
                 }}
               >
                 YES, REMOVE IT
@@ -1174,13 +1174,13 @@ const Profile = () => {
                 onClick={() => setDeleteConfirmation(null)}
                 style={{ 
                   width: '100%', 
-                  padding: '16px', 
-                  borderRadius: '24px', 
+                  padding: '12px 18px', 
+                  borderRadius: '12px', 
                   background: 'var(--glass-bg)', 
                   border: '1px solid var(--glass-border)', 
                   color: 'var(--text-primary)', 
                   fontWeight: 800, 
-                  fontSize: '1rem', 
+                  fontSize: '0.9rem', 
                   cursor: 'pointer' 
                 }}
               >

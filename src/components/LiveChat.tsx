@@ -3,7 +3,7 @@ import { useChat } from '../context/ChatContext';
 import { useLocation } from 'react-router-dom';
 
 const LiveChat = () => {
-  const { isChatOpen, setIsChatOpen, messages, sendMessage } = useChat();
+  const { isChatOpen, setIsChatOpen, messages, sendMessage, isTyping } = useChat();
   const [inputMessage, setInputMessage] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -15,7 +15,7 @@ const LiveChat = () => {
     if (isChatOpen) {
       scrollToBottom();
     }
-  }, [messages, isChatOpen]);
+  }, [messages, isChatOpen, isTyping]);
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,47 +33,13 @@ const LiveChat = () => {
 
   return (
     <>
-      {/* Floating Chat Icon */}
-      <button
-        onClick={() => setIsChatOpen(!isChatOpen)}
-        style={{
-          position: 'fixed',
-          bottom: '100px',
-          right: '24px',
-          width: '60px',
-          height: '60px',
-          borderRadius: '22px',
-          background: 'var(--accent-gradient)',
-          border: 'none',
-          boxShadow: '0 10px 30px rgba(227, 67, 96, 0.4)',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-          transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-          transform: isChatOpen ? 'rotate(90deg)' : 'none'
-        }}
-      >
-        {isChatOpen ? (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        ) : (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-          </svg>
-        )}
-      </button>
-
       {/* Chat Window */}
       {isChatOpen && (
         <div
           className="animate-slide-up"
           style={{
             position: 'fixed',
-            bottom: '180px',
+            bottom: '90px',
             right: '24px',
             width: 'calc(100% - 48px)',
             maxWidth: '400px',
@@ -108,6 +74,7 @@ const LiveChat = () => {
             <button 
               onClick={() => setIsChatOpen(false)}
               style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)' }}
+              className="hover-scale"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m6 9 6 6 6-6"/>
@@ -124,32 +91,119 @@ const LiveChat = () => {
             flexDirection: 'column',
             gap: '16px'
           }}>
-            {messages.map((msg) => (
+            {messages.map((msg) => {
+              const isUser = msg.sender === 'user';
+              return (
+                <div 
+                  key={msg.id} 
+                  className="animate-message-in"
+                  style={{ 
+                    alignSelf: isUser ? 'flex-end' : 'flex-start',
+                    maxWidth: '80%',
+                    display: 'flex',
+                    gap: '6px',
+                    flexDirection: 'column',
+                    alignItems: isUser ? 'flex-end' : 'flex-start'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexDirection: isUser ? 'row-reverse' : 'row', marginBottom: '2px' }}>
+                    <img 
+                      src={msg.avatar || (isUser ? 'https://api.dicebear.com/7.x/avataaars/svg?seed=John' : 'https://api.dicebear.com/7.x/bottts/svg?seed=Support')} 
+                      alt={msg.userName || 'User'} 
+                      style={{ 
+                        width: '24px', 
+                        height: '24px', 
+                        borderRadius: '50%', 
+                        border: `1.5px solid ${isUser ? 'var(--accent-orange)' : 'var(--glass-border)'}`,
+                      }} 
+                    />
+                    <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontWeight: 700 }}>
+                      {msg.userName || (isUser ? 'You' : 'Support')}
+                    </span>
+                  </div>
+                  <div style={{ 
+                    background: isUser ? 'var(--accent-gradient)' : 'var(--glass-bg)',
+                    padding: '10px 14px',
+                    borderRadius: isUser ? '16px 4px 16px 16px' : '4px 16px 16px 16px',
+                    color: isUser ? 'white' : 'var(--text-primary)',
+                    fontSize: '0.85rem',
+                    fontWeight: 500,
+                    border: isUser ? 'none' : '1px solid var(--glass-border)',
+                    boxShadow: isUser ? '0 4px 12px rgba(249, 111, 46, 0.15)' : 'none'
+                  }}>
+                    {msg.text}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+                    <span style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontWeight: 600 }}>{msg.time}</span>
+                    {isUser && (
+                      <span style={{ 
+                        fontSize: '0.6rem', 
+                        color: msg.status === 'sending' ? 'var(--text-muted)' : '#10B981', 
+                        fontWeight: 800,
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}>
+                        {msg.status === 'sending' ? (
+                          <span style={{ 
+                            display: 'inline-block',
+                            width: '4px',
+                            height: '4px',
+                            borderRadius: '50%',
+                            background: 'var(--text-secondary)',
+                            animation: 'pulse 1s infinite'
+                          }} />
+                        ) : (
+                          '✓✓'
+                        )}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+            
+            {isTyping && (
               <div 
-                key={msg.id} 
+                className="animate-message-in"
                 style={{ 
-                  alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-                  maxWidth: '85%',
+                  alignSelf: 'flex-start',
+                  maxWidth: '80%',
                   display: 'flex',
+                  gap: '6px',
                   flexDirection: 'column',
-                  alignItems: msg.sender === 'user' ? 'flex-end' : 'flex-start'
+                  alignItems: 'flex-start'
                 }}
               >
-                <div style={{ 
-                  background: msg.sender === 'user' ? 'var(--accent-gradient)' : 'var(--glass-bg)',
-                  padding: '12px 16px',
-                  borderRadius: msg.sender === 'user' ? '20px 20px 4px 20px' : '20px 20px 20px 4px',
-                  color: msg.sender === 'user' ? 'white' : 'var(--text-primary)',
-                  fontSize: '0.85rem',
-                  fontWeight: 500,
-                  border: msg.sender === 'user' ? 'none' : '1px solid var(--glass-border)',
-                  boxShadow: msg.sender === 'user' ? '0 5px 15px rgba(227, 67, 96, 0.2)' : 'none'
-                }}>
-                  {msg.text}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
+                  <img 
+                    src="https://api.dicebear.com/7.x/bottts/svg?seed=Support" 
+                    alt="Support Bot" 
+                    style={{ 
+                      width: '24px', 
+                      height: '24px', 
+                      borderRadius: '50%', 
+                      border: '1px solid var(--glass-border)'
+                    }} 
+                  />
+                  <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontWeight: 700 }}>
+                    Support Bot
+                  </span>
                 </div>
-                <span style={{ fontSize: '0.6rem', color: 'var(--text-secondary)', marginTop: '4px', fontWeight: 600 }}>{msg.time}</span>
+                <div style={{ 
+                  background: 'var(--glass-bg)',
+                  padding: '10px 14px',
+                  borderRadius: '4px 16px 16px 16px',
+                  border: '1px solid var(--glass-border)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  <span className="typing-dot" style={{ width: '5px', height: '5px', background: 'var(--text-primary)', borderRadius: '50%', display: 'inline-block' }}></span>
+                  <span className="typing-dot" style={{ width: '5px', height: '5px', background: 'var(--text-primary)', borderRadius: '50%', display: 'inline-block' }}></span>
+                  <span className="typing-dot" style={{ width: '5px', height: '5px', background: 'var(--text-primary)', borderRadius: '50%', display: 'inline-block' }}></span>
+                </div>
               </div>
-            ))}
+            )}
             <div ref={messagesEndRef} />
           </div>
 
@@ -194,6 +248,7 @@ const LiveChat = () => {
                 cursor: 'pointer',
                 boxShadow: '0 5px 15px rgba(227, 67, 96, 0.3)'
               }}
+              className="hover-scale"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="22" y1="2" x2="11" y2="13"></line>

@@ -544,7 +544,7 @@ const Wallet = () => {
               onClick={() => setIsConfirming(true)}
               disabled={!depositAmount || parseFloat(depositAmount) <= 0 || !selectedGateway}
               className="btn btn-primary" 
-              style={{ width: '100%', padding: '22px', borderRadius: '24px', fontSize: '1.1rem', fontWeight: 900, marginBottom: '48px', opacity: (!depositAmount || !selectedGateway) ? 0.5 : 1 }}
+              style={{ width: '100%', padding: '15px 20px', borderRadius: '14px', fontSize: '1rem', fontWeight: 800, marginBottom: '48px', opacity: (!depositAmount || !selectedGateway) ? 0.5 : 1 }}
             >
               {!selectedGateway ? 'SELECT GATEWAY' : 'ADD FUNDS NOW'}
             </button>
@@ -714,8 +714,10 @@ const Wallet = () => {
               className="btn btn-primary" 
               style={{ 
                 width: '100%', 
-                padding: '20px', 
-                borderRadius: '24px', 
+                padding: '15px 20px', 
+                borderRadius: '14px', 
+                fontSize: '1rem',
+                fontWeight: 800,
                 opacity: (!selectedWithdrawMethod || !withdrawAmount) ? 0.5 : 1, 
                 cursor: (!selectedWithdrawMethod || !withdrawAmount) ? 'not-allowed' : 'pointer' 
               }}
@@ -921,22 +923,22 @@ const Wallet = () => {
                 onClick={handleDeposit}
                 style={{ 
                   width: '100%', 
-                  padding: '22px', 
-                  borderRadius: '24px', 
+                  padding: '15px 20px', 
+                  borderRadius: '14px', 
                   background: localGateways.find((g: any) => g.id === selectedGateway)?.color, 
                   border: 'none', 
                   color: 'white', 
-                  fontWeight: 900, 
-                  fontSize: '1.1rem', 
+                  fontWeight: 800, 
+                  fontSize: '1rem', 
                   cursor: 'pointer', 
-                  boxShadow: `0 10px 25px ${localGateways.find((g: any) => g.id === selectedGateway)?.color}33` 
+                  boxShadow: `0 8px 20px ${localGateways.find((g: any) => g.id === selectedGateway)?.color}33` 
                 }}
               >
                 CONFIRM & DEPOSIT
               </button>
               <button 
                 onClick={() => setIsConfirming(false)}
-                style={{ width: '100%', padding: '16px', borderRadius: '24px', background: 'none', border: 'none', color: '#6B7280', fontWeight: 700, cursor: 'pointer' }}
+                style={{ width: '100%', padding: '12px 18px', borderRadius: '12px', background: 'none', border: 'none', color: '#6B7280', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}
               >
                 Cancel
               </button>
@@ -999,22 +1001,22 @@ const Wallet = () => {
                 onClick={confirmWithdraw}
                 style={{ 
                   width: '100%', 
-                  padding: '22px', 
-                  borderRadius: '24px', 
+                  padding: '15px 20px', 
+                  borderRadius: '14px', 
                   background: 'var(--accent-gradient)', 
                   border: 'none', 
                   color: 'white', 
-                  fontWeight: 900, 
-                  fontSize: '1.1rem', 
+                  fontWeight: 800, 
+                  fontSize: '1rem', 
                   cursor: 'pointer', 
-                  boxShadow: '0 10px 25px rgba(249, 111, 46, 0.2)' 
+                  boxShadow: '0 8px 20px rgba(249, 111, 46, 0.2)' 
                 }}
               >
                 CONFIRM & WITHDRAW
               </button>
               <button 
                 onClick={() => setIsWithdrawConfirming(false)}
-                style={{ width: '100%', padding: '16px', borderRadius: '24px', background: 'none', border: 'none', color: '#6B7280', fontWeight: 700, cursor: 'pointer' }}
+                style={{ width: '100%', padding: '12px 18px', borderRadius: '12px', background: 'none', border: 'none', color: '#6B7280', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}
               >
                 Cancel
               </button>
@@ -1121,13 +1123,13 @@ const Wallet = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <button 
                 onClick={handleAddGateway}
-                style={{ width: '100%', padding: '18px', borderRadius: '24px', background: 'var(--accent-gradient)', border: 'none', color: 'white', fontWeight: 900, cursor: 'pointer' }}
+                style={{ width: '100%', padding: '15px 20px', borderRadius: '14px', background: 'var(--accent-gradient)', border: 'none', color: 'white', fontWeight: 800, fontSize: '1rem', cursor: 'pointer' }}
               >
                 ADD PAYMENT METHOD
               </button>
               <button 
                 onClick={() => setShowAddGateway(false)}
-                style={{ width: '100%', padding: '12px', borderRadius: '24px', background: 'none', border: 'none', color: '#6B7280', fontWeight: 700, cursor: 'pointer' }}
+                style={{ width: '100%', padding: '12px 18px', borderRadius: '12px', background: 'none', border: 'none', color: '#6B7280', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}
               >
                 Cancel
               </button>
@@ -1196,13 +1198,13 @@ const Wallet = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <button 
                 onClick={handleAddMethod}
-                style={{ width: '100%', padding: '18px', borderRadius: '24px', background: 'var(--accent-gradient)', border: 'none', color: 'white', fontWeight: 900, fontSize: '1.1rem', cursor: 'pointer' }}
+                style={{ width: '100%', padding: '15px 20px', borderRadius: '14px', background: 'var(--accent-gradient)', border: 'none', color: 'white', fontWeight: 800, fontSize: '1rem', cursor: 'pointer' }}
               >
                 LINK ACCOUNT
               </button>
               <button 
                 onClick={() => setShowAddMethod(false)}
-                style={{ width: '100%', padding: '12px', borderRadius: '24px', background: 'none', border: 'none', color: '#6B7280', fontWeight: 700, cursor: 'pointer' }}
+                style={{ width: '100%', padding: '12px 18px', borderRadius: '12px', background: 'none', border: 'none', color: '#6B7280', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}
               >
                 Cancel
               </button>
@@ -1268,15 +1270,15 @@ const Wallet = () => {
                 onClick={confirmDelete}
                 style={{ 
                   width: '100%', 
-                  padding: '18px', 
-                  borderRadius: '24px', 
+                  padding: '15px 20px', 
+                  borderRadius: '14px', 
                   background: '#EF4444', 
                   border: 'none', 
                   color: 'white', 
-                  fontWeight: 900, 
-                  fontSize: '1.1rem', 
+                  fontWeight: 800, 
+                  fontSize: '1rem', 
                   cursor: 'pointer',
-                  boxShadow: '0 8px 24px rgba(239, 68, 68, 0.3)'
+                  boxShadow: '0 8px 20px rgba(239, 68, 68, 0.3)'
                 }}
               >
                 DELETE NOW
@@ -1285,12 +1287,13 @@ const Wallet = () => {
                 onClick={() => setDeleteConfirmation(null)}
                 style={{ 
                   width: '100%', 
-                  padding: '14px', 
-                  borderRadius: '24px', 
+                  padding: '12px 18px', 
+                  borderRadius: '12px', 
                   background: 'var(--glass-bg)', 
                   border: '1px solid var(--glass-border)', 
                   color: 'var(--text-primary)', 
                   fontWeight: 700, 
+                  fontSize: '0.9rem',
                   cursor: 'pointer' 
                 }}
               >

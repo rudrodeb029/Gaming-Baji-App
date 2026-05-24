@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useCurrency } from '../context/CurrencyContext';
+import { AnimatedCounter } from './AnimatedCounter';
 
 interface SliderCardProps {
   group: string;
@@ -19,9 +20,13 @@ interface SliderCardProps {
   isAdminMode?: boolean;
   onEdit?: () => void;
   liveStartedAt?: number;
+  prizePool?: number;
+  firstPrize?: number;
+  secondPrize?: number;
+  thirdPrize?: number;
 }
 
-const SliderCard = ({ group, players, team1, team2, score, time, bids, totalBids, currentParticipants, maxParticipants, onClick, isAdminMode, onEdit, status, name, liveStartedAt }: SliderCardProps) => {
+const SliderCard = ({ group, players, team1, team2, score, time, bids, totalBids, currentParticipants, maxParticipants, onClick, isAdminMode, onEdit, status, name, liveStartedAt, prizePool, firstPrize, secondPrize, thirdPrize }: SliderCardProps) => {
   const { t } = useLanguage();
   const { formatCurrency } = useCurrency();
   const isLive = status === 'live';
@@ -145,6 +150,16 @@ const SliderCard = ({ group, players, team1, team2, score, time, bids, totalBids
 
   const mode = getModeStyles();
 
+  // Dynamic calculations for prize pools and winners
+  const parsedTotalBids = totalBids ? parseFloat(totalBids.replace(/[^0-9.-]+/g, '')) || 0 : 0;
+  const entryFee = bids && bids.length > 0 ? parseFloat(bids[0].replace(/[^0-9.-]+/g, '')) || 10 : 10;
+  const count = currentParticipants > 0 ? currentParticipants : 12;
+  const totalPrizePool = prizePool !== undefined && prizePool > 0 ? prizePool : (parsedTotalBids > 0 ? parsedTotalBids : count * entryFee * 1.8);
+  
+  const firstPrizeValue = firstPrize !== undefined && firstPrize > 0 ? firstPrize : totalPrizePool * 0.5;
+  const secondPrizeValue = secondPrize !== undefined && secondPrize > 0 ? secondPrize : totalPrizePool * 0.3;
+  const thirdPrizeValue = thirdPrize !== undefined && thirdPrize > 0 ? thirdPrize : totalPrizePool * 0.2;
+
   return (
     <div 
       onClick={!isFull ? onClick : undefined}
@@ -267,11 +282,103 @@ const SliderCard = ({ group, players, team1, team2, score, time, bids, totalBids
         </div>
       </div>
 
-      {/* Main Stats */}
-      <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
-        <div style={{ flex: 1, background: 'var(--glass-bg)', padding: '16px', borderRadius: '20px', border: '1px solid var(--glass-border)' }}>
-          <div style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '4px' }}>PRIZE POOL</div>
-          <div style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--accent-orange)' }}>{formatCurrency(totalBids)}</div>
+      {/* Main Stats Grid */}
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(4, 1fr)', 
+        gap: '6px', 
+        marginBottom: '20px' 
+      }}>
+        {/* Total Prize Pool */}
+        <div 
+          className="float-stagger-0"
+          style={{ 
+            background: 'var(--card-inner-bg)', 
+            padding: '8px 4px', 
+            borderRadius: '12px', 
+            border: '1px solid var(--glass-border)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            backdropFilter: 'blur(5px)',
+            justifyContent: 'center',
+            minWidth: 0
+          }}
+        >
+          <span style={{ fontSize: '0.55rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.01em', marginBottom: '4px', display: 'block', width: '100%', wordBreak: 'break-word', lineHeight: '1.2' }}>Prize Pool</span>
+          <span style={{ fontSize: '0.95rem', fontWeight: 900, color: 'var(--accent-orange)', textShadow: '0 0 10px rgba(249, 111, 46, 0.2)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>
+            <AnimatedCounter value={totalPrizePool} />
+          </span>
+        </div>
+
+        {/* 1st Winner Reward */}
+        <div 
+          className="float-stagger-1"
+          style={{ 
+            background: 'var(--card-inner-bg)', 
+            padding: '8px 4px', 
+            borderRadius: '12px', 
+            border: '1px solid var(--glass-border)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            backdropFilter: 'blur(5px)',
+            justifyContent: 'center',
+            minWidth: 0
+          }}
+        >
+          <span style={{ fontSize: '0.55rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.01em', marginBottom: '4px', display: 'block', width: '100%', wordBreak: 'break-word', lineHeight: '1.2' }}>🥇 1st Win</span>
+          <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#FBBF24', textShadow: '0 0 10px rgba(251, 191, 36, 0.2)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>
+            <AnimatedCounter value={firstPrizeValue} />
+          </span>
+        </div>
+
+        {/* 2nd Winner Reward */}
+        <div 
+          className="float-stagger-2"
+          style={{ 
+            background: 'var(--card-inner-bg)', 
+            padding: '8px 4px', 
+            borderRadius: '12px', 
+            border: '1px solid var(--glass-border)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            backdropFilter: 'blur(5px)',
+            justifyContent: 'center',
+            minWidth: 0
+          }}
+        >
+          <span style={{ fontSize: '0.55rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.01em', marginBottom: '4px', display: 'block', width: '100%', wordBreak: 'break-word', lineHeight: '1.2' }}>🥈 2nd Win</span>
+          <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#94A3B8', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>
+            <AnimatedCounter value={secondPrizeValue} />
+          </span>
+        </div>
+
+        {/* 3rd Winner Reward */}
+        <div 
+          className="float-stagger-3"
+          style={{ 
+            background: 'var(--card-inner-bg)', 
+            padding: '8px 4px', 
+            borderRadius: '12px', 
+            border: '1px solid var(--glass-border)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            backdropFilter: 'blur(5px)',
+            justifyContent: 'center',
+            minWidth: 0
+          }}
+        >
+          <span style={{ fontSize: '0.55rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.01em', marginBottom: '4px', display: 'block', width: '100%', wordBreak: 'break-word', lineHeight: '1.2' }}>🥉 3rd Win</span>
+          <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#D97706', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>
+            <AnimatedCounter value={thirdPrizeValue} />
+          </span>
         </div>
       </div>
 
@@ -308,7 +415,7 @@ const SliderCard = ({ group, players, team1, team2, score, time, bids, totalBids
           disabled={isFull}
           style={{ 
             padding: '10px 20px', 
-            borderRadius: '14px', 
+            borderRadius: '12px', 
             background: isFull ? 'rgba(239, 68, 68, 0.1)' : 'var(--accent-gradient)', 
             border: 'none', 
             color: isFull ? '#EF4444' : 'white', 

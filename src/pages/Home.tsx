@@ -627,7 +627,7 @@ const Home = () => {
                 <button 
                   disabled={!depositAmount || parseFloat(depositAmount) <= 0}
                   className="btn btn-primary"
-                  style={{ width: '100%', padding: '22px', borderRadius: '24px', fontSize: '1.1rem', fontWeight: 900, letterSpacing: '0.05em' }}
+                  style={{ width: '100%', padding: '13px 20px', borderRadius: '12px', fontSize: '0.95rem', fontWeight: 800, letterSpacing: '0.05em' }}
                   onClick={() => setShowAddConfirm(true)}
                 >
                   PROCEED TO CONFIRM
@@ -662,15 +662,15 @@ const Home = () => {
                     onClick={handleDeposit}
                     style={{ 
                       width: '100%', 
-                      padding: '22px', 
-                      borderRadius: '24px', 
+                      padding: '13px 20px', 
+                      borderRadius: '12px', 
                       background: '#10B981', 
                       border: 'none', 
                       color: 'white', 
-                      fontWeight: 900, 
-                      fontSize: '1.1rem', 
+                      fontWeight: 800, 
+                      fontSize: '0.95rem', 
                       cursor: 'pointer',
-                      boxShadow: '0 10px 20px rgba(16, 185, 129, 0.2)',
+                      boxShadow: '0 8px 16px rgba(16, 185, 129, 0.2)',
                       transition: 'all 0.2s ease'
                     }}
                   >
@@ -680,14 +680,14 @@ const Home = () => {
                     onClick={() => setShowAddConfirm(false)}
                     style={{ 
                       width: '100%', 
-                      padding: '16px', 
-                      borderRadius: '24px', 
+                      padding: '12px 18px', 
+                      borderRadius: '12px', 
                       background: 'none', 
                       border: 'none', 
                       color: 'var(--text-secondary)', 
                       fontWeight: 700, 
                       cursor: 'pointer',
-                      fontSize: '0.9rem'
+                      fontSize: '0.95rem'
                     }}
                   >
                     Cancel and go back
@@ -715,7 +715,7 @@ const Home = () => {
             <div style={{ display: 'flex', gap: '12px' }}>
               <button 
                 className="btn btn-primary" 
-                style={{ flex: 1, padding: '16px', borderRadius: '16px', color: '#FFFFFF' }}
+                style={{ flex: 1, padding: '13px 20px', borderRadius: '12px', color: '#FFFFFF', fontSize: '0.95rem' }}
                 onClick={() => {
                   const val = (document.getElementById('edit-stat-value') as HTMLInputElement).value;
                   setCustomStats((prev: any) => prev.map((s: any) => s.id === editingStat.id ? { ...s, value: val } : s));
@@ -723,7 +723,7 @@ const Home = () => {
                 }}
               >SAVE CHANGES</button>
               <button 
-                style={{ flex: 1, padding: '16px', borderRadius: '16px', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', fontWeight: 700, cursor: 'pointer' }}
+                style={{ flex: 1, padding: '13px 20px', borderRadius: '12px', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', fontWeight: 700, cursor: 'pointer', fontSize: '0.95rem' }}
                 onClick={() => setEditingStat(null)}
               >CANCEL</button>
             </div>
@@ -789,12 +789,31 @@ const Home = () => {
                   <input type="number" id="edit-match-max" defaultValue={editingMatch.maxParticipants} style={{ width: '100%', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', borderRadius: '12px', padding: '12px', color: 'var(--text-primary)', fontWeight: 700 }} />
                 </div>
               </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+                <div>
+                  <label style={{ fontSize: '0.6rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px', fontWeight: 700, whiteSpace: 'nowrap' }}>PRIZE POOL</label>
+                  <input type="number" id="edit-match-prizePool" defaultValue={editingMatch.prizePool || 0} style={{ width: '100%', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', borderRadius: '12px', padding: '12px 6px', color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.85rem' }} />
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.6rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px', fontWeight: 700, whiteSpace: 'nowrap' }}>1ST WINNER</label>
+                  <input type="number" id="edit-match-firstPrize" defaultValue={editingMatch.firstPrize || 0} style={{ width: '100%', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', borderRadius: '12px', padding: '12px 6px', color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.85rem' }} />
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.6rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px', fontWeight: 700, whiteSpace: 'nowrap' }}>2ND WINNER</label>
+                  <input type="number" id="edit-match-secondPrize" defaultValue={editingMatch.secondPrize || 0} style={{ width: '100%', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', borderRadius: '12px', padding: '12px 6px', color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.85rem' }} />
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.6rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px', fontWeight: 700, whiteSpace: 'nowrap' }}>3RD WINNER</label>
+                  <input type="number" id="edit-match-thirdPrize" defaultValue={editingMatch.thirdPrize || 0} style={{ width: '100%', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', borderRadius: '12px', padding: '12px 6px', color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.85rem' }} />
+                </div>
+              </div>
             </div>
 
             <div style={{ display: 'flex', gap: '12px' }}>
               <button 
                 className="btn btn-primary" 
-                style={{ flex: 1, padding: '16px', borderRadius: '16px', color: '#FFFFFF' }}
+                style={{ flex: 1, padding: '15px 20px', borderRadius: '14px', color: '#FFFFFF', fontSize: '1rem' }}
                 onClick={() => {
                   const name = (document.getElementById('edit-match-name') as HTMLInputElement).value;
                   const score = (document.getElementById('edit-match-score') as HTMLInputElement).value;
@@ -805,6 +824,10 @@ const Home = () => {
                   const team2Name = (document.getElementById('edit-match-team2') as HTMLInputElement).value;
                   const current = parseInt((document.getElementById('edit-match-current') as HTMLInputElement).value);
                   const max = parseInt((document.getElementById('edit-match-max') as HTMLInputElement).value);
+                  const prizePool = parseFloat((document.getElementById('edit-match-prizePool') as HTMLInputElement).value) || 0;
+                  const firstPrize = parseFloat((document.getElementById('edit-match-firstPrize') as HTMLInputElement).value) || 0;
+                  const secondPrize = parseFloat((document.getElementById('edit-match-secondPrize') as HTMLInputElement).value) || 0;
+                  const thirdPrize = parseFloat((document.getElementById('edit-match-thirdPrize') as HTMLInputElement).value) || 0;
                   
                   setLocalMatches(prev => prev.map(m => m.id === editingMatch.id ? { 
                     ...m, 
@@ -816,13 +839,17 @@ const Home = () => {
                     team1: { ...m.team1, name: team1Name },
                     team2: { ...m.team2, name: team2Name },
                     currentParticipants: current, 
-                    maxParticipants: max 
+                    maxParticipants: max,
+                    prizePool,
+                    firstPrize,
+                    secondPrize,
+                    thirdPrize
                   } : m));
                   setEditingMatch(null);
                 }}
               >SAVE MATCH</button>
               <button 
-                style={{ flex: 1, padding: '16px', borderRadius: '16px', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', fontWeight: 700, cursor: 'pointer' }}
+                style={{ flex: 1, padding: '12px 18px', borderRadius: '12px', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem' }}
                 onClick={() => setEditingMatch(null)}
               >CANCEL</button>
             </div>
@@ -847,7 +874,7 @@ const Home = () => {
             <div style={{ display: 'flex', gap: '12px' }}>
               <button 
                 className="btn btn-primary" 
-                style={{ flex: 1, padding: '16px', borderRadius: '16px', color: '#FFFFFF' }}
+                style={{ flex: 1, padding: '15px 20px', borderRadius: '14px', color: '#FFFFFF', fontSize: '1rem' }}
                 onClick={() => {
                   const name = (document.getElementById('edit-winner-name') as HTMLInputElement).value;
                   const amount = (document.getElementById('edit-winner-amount') as HTMLInputElement).value;
@@ -856,7 +883,7 @@ const Home = () => {
                 }}
               >SAVE</button>
               <button 
-                style={{ flex: 1, padding: '16px', borderRadius: '16px', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', fontWeight: 700, cursor: 'pointer' }}
+                style={{ flex: 1, padding: '12px 18px', borderRadius: '12px', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem' }}
                 onClick={() => setEditingWinner(null)}
               >CANCEL</button>
             </div>
@@ -882,7 +909,7 @@ const Home = () => {
             <div style={{ display: 'flex', gap: '12px' }}>
               <button 
                 className="btn btn-primary" 
-                style={{ flex: 1, padding: '16px', borderRadius: '16px', color: '#FFFFFF' }}
+                style={{ flex: 1, padding: '15px 20px', borderRadius: '14px', color: '#FFFFFF', fontSize: '1rem' }}
                 onClick={() => {
                   const name = (document.getElementById('edit-part-name') as HTMLInputElement).value;
                   const matchesVal = parseInt((document.getElementById('edit-part-matches') as HTMLInputElement).value);
@@ -891,7 +918,7 @@ const Home = () => {
                 }}
               >SAVE</button>
               <button 
-                style={{ flex: 1, padding: '16px', borderRadius: '16px', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', fontWeight: 700, cursor: 'pointer' }}
+                style={{ flex: 1, padding: '12px 18px', borderRadius: '12px', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem' }}
                 onClick={() => setEditingParticipant(null)}
               >CANCEL</button>
             </div>
@@ -917,8 +944,8 @@ const Home = () => {
             right: '24px',
             background: 'rgba(239, 68, 68, 0.9)',
             color: 'white',
-            padding: '12px 20px',
-            borderRadius: '16px',
+            padding: '12px 18px',
+            borderRadius: '12px',
             fontSize: '0.8rem',
             fontWeight: 800,
             border: 'none',

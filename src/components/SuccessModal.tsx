@@ -102,15 +102,15 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ isOpen, onClose, title = "C
             onClick={onClose}
             style={{
               width: '100%',
-              padding: '18px',
-              borderRadius: '20px',
+              padding: '15px 20px',
+              borderRadius: '14px',
               background: 'var(--accent-gradient)',
               border: 'none',
               color: 'white',
               fontWeight: 800,
-              fontSize: '1.1rem',
+              fontSize: '1rem',
               cursor: 'pointer',
-              boxShadow: '0 10px 20px rgba(249, 111, 46, 0.3)',
+              boxShadow: '0 8px 16px rgba(249, 111, 46, 0.3)',
               transition: 'transform 0.2s ease'
             }}
             onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.96)'}

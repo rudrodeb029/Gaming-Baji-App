@@ -5,17 +5,17 @@ import { useNavigate } from 'react-router-dom';
 const slides = [
   {
     icon: 'crosshair',
-    title: 'Hey Buddy!\nLets Bid..',
+    title: 'Ready to\nPlace Bids?',
     description: 'Lock your target, place your bid, and dominate the battlefield. Swipe to learn more.',
   },
   {
     icon: 'shield',
-    title: 'Pick your\nSquad',
+    title: 'Choose Your\nSquad',
     description: 'Choose your favourite team, back them with confidence, and watch them conquer.',
   },
   {
     icon: 'trophy',
-    title: 'Claim\nVictory',
+    title: 'Claim Your\nVictory',
     description: 'Win big rewards when your squad takes the Booyah! Your glory awaits.',
   },
 ];
@@ -286,11 +286,11 @@ const onboardingCSS = `
   border: 1px solid rgba(255,255,255,0.1);
   color: rgba(255,255,255,0.6);
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   cursor: pointer;
   z-index: 10;
-  padding: 8px 20px;
-  border-radius: 24px;
+  padding: 6px 16px;
+  border-radius: 20px;
   font-family: 'Outfit', sans-serif;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
@@ -550,23 +550,23 @@ const onboardingCSS = `
 }
 
 .ob-title {
-  font-size: 2.8rem;
-  font-weight: 800;
+  font-size: 2.2rem;
+  font-weight: 700;
   white-space: pre-line;
-  line-height: 1.08;
-  margin-bottom: 14px;
-  background: linear-gradient(135deg, #FFFFFF 0%, rgba(255,255,255,0.75) 100%);
+  line-height: 1.15;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #FFFFFF 0%, rgba(255,255,255,0.8) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 .ob-desc {
-  font-size: 1rem;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 32px;
-  line-height: 1.6;
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 28px;
+  line-height: 1.5;
   max-width: 320px;
 }
 
@@ -574,19 +574,19 @@ const onboardingCSS = `
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
-  padding: 18px 32px;
-  border-radius: 16px;
+  padding: 15px 20px;
+  border-radius: 14px;
   background: linear-gradient(135deg, #F96F2E 0%, #E34360 100%);
   color: white;
   font-family: 'Outfit', sans-serif;
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: 600;
+  font-size: 1rem;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 30px rgba(249, 111, 46, 0.3), 0 2px 8px rgba(227, 67, 96, 0.2);
+  box-shadow: 0 6px 20px rgba(249, 111, 46, 0.25), 0 2px 8px rgba(227, 67, 96, 0.15);
   position: relative;
   overflow: hidden;
 }
@@ -604,10 +604,10 @@ const onboardingCSS = `
   100% { left: 100%; }
 }
 
-.ob-cta:active { transform: scale(0.97); }
+.ob-cta:active { transform: scale(0.98); }
 
 .ob-cta-arrow {
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   transition: transform 0.3s ease;
 }
 .ob-cta:hover .ob-cta-arrow { transform: translateX(4px); }
